@@ -11,7 +11,33 @@ bir şirkette, başka bir hikâyeyle tekrar oynayabilirsin.
 - Python 3.10 veya üstü ve bash (Kali'de ikisi de hazır gelir)
 - İnternet **gerekmez**; ek paket kurulmaz.
 
-## Kurulum
+## Kurulum — GitHub'dan (Raspberry Pi için önerilen)
+
+Depo **özeldir (private)**, bu yüzden Pi'nin bir kez GitHub'a kimlik tanıtması gerekir.
+En kolay yol, Pi'de `gh` ile giriş yapmak:
+
+```
+sudo apt install gh git        # yoksa
+gh auth login                  # tarayıcı/kod ile bir kez giriş
+gh repo clone GokhanYmn/Ethic-Hacking-Game
+cd Ethic-Hacking-Game
+./install.sh
+```
+
+`gh` kurmak istemezsen, GitHub'dan bir **token** (Settings → Developer settings → Personal
+access tokens → bu depoya "Contents: read") alıp:
+
+```
+git clone https://<TOKEN>@github.com/GokhanYmn/Ethic-Hacking-Game.git
+cd Ethic-Hacking-Game && ./install.sh
+```
+
+Güncelleme geldiğinde: depo klasöründe `git pull && ./install.sh` — ilerlemen korunur.
+
+> Depoyu herkese açık (public) yaparsan Pi'de hiçbir kimlik gerekmez, `git clone` tek başına
+> çalışır. İstersen bunu senin için açabilirim.
+
+## Kurulum — USB ile (internetsiz)
 
 1. `hackeryolu-<sürüm>.tar.gz` dosyasını USB bellekle Kali'ye kopyala. Örneğin USB bellek
    `/media/kali/USB` altına bağlandıysa:
