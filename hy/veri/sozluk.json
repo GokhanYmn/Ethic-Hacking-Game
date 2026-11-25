@@ -1,0 +1,862 @@
+{
+ "terimler": [
+  {
+   "terim": "Attack surface",
+   "tr": "Saldırı yüzeyi",
+   "aciklama": "Hedefin dışarıdan erişilebilen tüm noktaları: açık portlar, web sayfaları, kullanıcı girişleri. Yüzey ne kadar küçükse saldırmak o kadar zordur.",
+   "cilt": 4
+  },
+  {
+   "terim": "Reconnaissance (recon)",
+   "tr": "Keşif",
+   "aciklama": "Saldırıdan veya testten önce hedef hakkında bilgi toplama aşaması.",
+   "cilt": 4
+  },
+  {
+   "terim": "Enumeration",
+   "tr": "Sayım",
+   "aciklama": "Açık servisleri, kullanıcıları ve kaynakları tek tek listeleyerek ayrıntılı bilgi çıkarma.",
+   "cilt": 4
+  },
+  {
+   "terim": "Footprinting",
+   "tr": "Dijital ayak izi çıkarma",
+   "aciklama": "Hedefe dokunmadan, açık kaynaklardan bilgi toplayarak onun dijital izini çıkarma (pasif keşif).",
+   "cilt": 4
+  },
+  {
+   "terim": "Payload",
+   "tr": "Yük",
+   "aciklama": "Bir açık istismar edildikten sonra hedefte çalışan asıl kod parçası.",
+   "cilt": 6
+  },
+  {
+   "terim": "Exploit",
+   "tr": "İstismar",
+   "aciklama": "Bir zafiyetten yararlanan teknik ya da kod.",
+   "cilt": 6
+  },
+  {
+   "terim": "Vulnerability",
+   "tr": "Zafiyet",
+   "aciklama": "Sistemdeki, kötüye kullanılabilecek bir zayıflık.",
+   "cilt": 1
+  },
+  {
+   "terim": "CVE",
+   "tr": "",
+   "aciklama": "Bilinen bir zafiyete verilen küresel kimlik numarası (örn. CVE-2021-44228). Herkes aynı açıktan söz ettiğini bilir.",
+   "cilt": 6
+  },
+  {
+   "terim": "Privilege escalation",
+   "tr": "Yetki yükseltme",
+   "aciklama": "Düşük yetkili bir hesaptan root veya yönetici yetkisine çıkma.",
+   "cilt": 6
+  },
+  {
+   "terim": "Lateral movement",
+   "tr": "Yanal hareket",
+   "aciklama": "Bir makineyi ele geçirdikten sonra ağdaki diğer makinelere yayılma.",
+   "cilt": 6
+  },
+  {
+   "terim": "Pivoting",
+   "tr": "",
+   "aciklama": "Ele geçirilen bir makineyi, normalde erişilemeyen iç ağa geçmek için atlama tahtası olarak kullanma.",
+   "cilt": 6
+  },
+  {
+   "terim": "Foothold",
+   "tr": "İlk erişim noktası",
+   "aciklama": "Saldırganın hedef ağda elde ettiği ilk tutunma noktası.",
+   "cilt": 6
+  },
+  {
+   "terim": "Reverse shell",
+   "tr": "Ters kabuk",
+   "aciklama": "Hedef makinenin kendisi geri bağlanıp komut satırı verdiği bağlantı türü. Güvenlik duvarları içeri gelen bağlantıyı engellediği için tercih edilir.",
+   "cilt": 6
+  },
+  {
+   "terim": "Bind shell",
+   "tr": "Bağlanan kabuk",
+   "aciklama": "Hedefin bir portta dinleyip bağlanılmasını beklediği komut satırı bağlantısı.",
+   "cilt": 6
+  },
+  {
+   "terim": "Persistence",
+   "tr": "Kalıcılık",
+   "aciklama": "Erişimin yeniden başlatma sonrası da sürmesi için bırakılan düzenek.",
+   "cilt": 6
+  },
+  {
+   "terim": "Brute-force",
+   "tr": "Kaba kuvvet",
+   "aciklama": "Doğrusunu bulana dek tüm olasılıkları (örn. parolaları) tek tek deneme.",
+   "cilt": 5
+  },
+  {
+   "terim": "Injection",
+   "tr": "Enjeksiyon",
+   "aciklama": "Kullanıcının girdiği verinin yanlışlıkla komut veya sorgu gibi çalıştırılması.",
+   "cilt": 5
+  },
+  {
+   "terim": "Business logic flaw",
+   "tr": "İş mantığı açığı",
+   "aciklama": "Kod hatası olmasa da iş kurallarının kötüye kullanılabilmesi (örn. negatif tutar girmek).",
+   "cilt": 10
+  },
+  {
+   "terim": "Hardening",
+   "tr": "Sertleştirme",
+   "aciklama": "Gereksiz servisleri ve ayarları kapatarak sistemin saldırı yüzeyini daraltma.",
+   "cilt": 7
+  },
+  {
+   "terim": "Egress filtering",
+   "tr": "Çıkış filtreleme",
+   "aciklama": "Ağdan dışarı giden trafiği kısıtlama; ters kabukları ve veri sızdırmayı zorlaştırır.",
+   "cilt": 7
+  },
+  {
+   "terim": "Threat model",
+   "tr": "Tehdit modeli",
+   "aciklama": "Kimin, neden ve nasıl saldırabileceğini önceden düşünerek yapılan analiz.",
+   "cilt": 7
+  },
+  {
+   "terim": "Kill chain",
+   "tr": "Saldırı zinciri",
+   "aciklama": "Bir saldırının keşiften hedefe ulaşmaya kadar izlediği aşamalar. Zincirin bir halkası koparsa saldırı durur.",
+   "cilt": 7
+  },
+  {
+   "terim": "False positive",
+   "tr": "Yanlış alarm",
+   "aciklama": "Güvenlik aracının, aslında zararsız olan bir şeye saldırı demesi.",
+   "cilt": 7
+  },
+  {
+   "terim": "Scope",
+   "tr": "Kapsam",
+   "aciklama": "Test etmeye yazılı izin verilen sistemlerin ve yöntemlerin sınırı. Dışına çıkmak suçtur.",
+   "cilt": 0
+  },
+  {
+   "terim": "Writeup",
+   "tr": "Çözüm yazısı",
+   "aciklama": "Bir makinenin veya zafiyetin adım adım nasıl çözüldüğünü anlatan yazı.",
+   "cilt": 8
+  },
+  {
+   "terim": "Red team",
+   "tr": "Saldırı takımı",
+   "aciklama": "Gerçek saldırgan gibi davranıp savunmayı sınayan takım.",
+   "cilt": 8
+  },
+  {
+   "terim": "Blue team",
+   "tr": "Savunma takımı",
+   "aciklama": "Sistemi koruyan, saldırıları tespit eden ve müdahale eden takım.",
+   "cilt": 7
+  },
+  {
+   "terim": "Purple team",
+   "tr": "",
+   "aciklama": "Kırmızı ve mavi takımın birlikte çalışıp birbirinden öğrendiği yaklaşım.",
+   "cilt": 8
+  },
+  {
+   "terim": "SQL Injection",
+   "tr": "SQL Enjeksiyonu",
+   "aciklama": "Kullanıcı girdisinin denetlenmeden SQL sorgusuna eklenmesiyle oluşan açık; saldırgan sorguyu değiştirebilir.",
+   "cilt": 5
+  },
+  {
+   "terim": "XSS",
+   "tr": "Siteler arası betik çalıştırma",
+   "aciklama": "Saldırganın bir web sayfasına kendi JavaScript kodunu yerleştirip başka kullanıcıların tarayıcısında çalıştırması.",
+   "cilt": 5
+  },
+  {
+   "terim": "Reflected XSS",
+   "tr": "Yansıyan XSS",
+   "aciklama": "Zararlı betiğin istekteki parametreden anında sayfaya yansıdığı XSS türü.",
+   "cilt": 5
+  },
+  {
+   "terim": "Stored XSS",
+   "tr": "Depolanan XSS",
+   "aciklama": "Zararlı betiğin sunucuda saklanıp sayfayı açan herkese servis edildiği XSS türü.",
+   "cilt": 5
+  },
+  {
+   "terim": "DOM XSS",
+   "tr": "",
+   "aciklama": "Zafiyetin sunucuda değil, tarayıcıdaki JavaScript kodunda olduğu XSS türü.",
+   "cilt": 5
+  },
+  {
+   "terim": "CSRF",
+   "tr": "Siteler arası istek sahteciliği",
+   "aciklama": "Kullanıcının oturumu açıkken, onun bilgisi olmadan bir siteye istek yaptırılması.",
+   "cilt": 5
+  },
+  {
+   "terim": "IDOR",
+   "tr": "Güvensiz doğrudan nesne erişimi",
+   "aciklama": "URL'deki numarayı değiştirince başkasının verisine erişebilme; sunucu yetkiyi kontrol etmiyor demektir.",
+   "cilt": 5
+  },
+  {
+   "terim": "SSRF",
+   "tr": "Sunucu taraflı istek sahteciliği",
+   "aciklama": "Sunucunun, saldırganın verdiği adrese istek yapmaya kandırılması; iç ağa erişim sağlayabilir.",
+   "cilt": 5
+  },
+  {
+   "terim": "Broken Access Control",
+   "tr": "Bozuk erişim kontrolü",
+   "aciklama": "Kullanıcıların yetkisi olmayan veriye veya işleve erişebilmesi; OWASP Top 10'un başındaki açık.",
+   "cilt": 5
+  },
+  {
+   "terim": "OWASP",
+   "tr": "",
+   "aciklama": "Web güvenliği için açık ve ücretsiz rehberler yayımlayan, kâr amacı gütmeyen topluluk.",
+   "cilt": 5
+  },
+  {
+   "terim": "OWASP Top 10",
+   "tr": "",
+   "aciklama": "Web uygulamalarında en sık görülen on risk kategorisinin listesi.",
+   "cilt": 5
+  },
+  {
+   "terim": "WSTG",
+   "tr": "OWASP Web Güvenlik Test Rehberi",
+   "aciklama": "Web uygulaması testinin adımlarını anlatan OWASP rehberi.",
+   "cilt": 8
+  },
+  {
+   "terim": "Session hijacking",
+   "tr": "Oturum çalma",
+   "aciklama": "Başkasının oturum kimliğini ele geçirip onun yerine siteye girme.",
+   "cilt": 5
+  },
+  {
+   "terim": "Session fixation",
+   "tr": "Oturum sabitleme",
+   "aciklama": "Saldırganın bildiği bir oturum kimliğini kurbana kullandırması.",
+   "cilt": 5
+  },
+  {
+   "terim": "Cookie",
+   "tr": "Çerez",
+   "aciklama": "Tarayıcıda saklanan küçük veri; çoğu zaman oturum kimliğini taşır.",
+   "cilt": 5
+  },
+  {
+   "terim": "JWT",
+   "tr": "JSON Web Token",
+   "aciklama": "Kullanıcının kimliğini taşıyan, imzalı bir belirteç. İmza doğru denetlenmezse sahte belirteç üretilebilir.",
+   "cilt": 5
+  },
+  {
+   "terim": "CSP",
+   "tr": "İçerik Güvenliği Politikası",
+   "aciklama": "Tarayıcıya hangi kaynaklardan betik yüklenebileceğini söyleyen başlık; XSS'i zorlaştırır.",
+   "cilt": 5
+  },
+  {
+   "terim": "CORS",
+   "tr": "Kaynaklar arası paylaşım",
+   "aciklama": "Bir sitenin başka bir sitenin verisini tarayıcıdan okuyup okuyamayacağını belirleyen kurallar.",
+   "cilt": 5
+  },
+  {
+   "terim": "Rate limiting",
+   "tr": "Hız sınırlama",
+   "aciklama": "Bir kullanıcının belirli sürede yapabileceği istek sayısını sınırlama; kaba kuvveti yavaşlatır.",
+   "cilt": 5
+  },
+  {
+   "terim": "MFA",
+   "tr": "Çok faktörlü doğrulama",
+   "aciklama": "Parolaya ek olarak ikinci bir kanıt (telefon kodu gibi) isteyen giriş yöntemi.",
+   "cilt": 5
+  },
+  {
+   "terim": "Parameterized query",
+   "tr": "Parametreli sorgu",
+   "aciklama": "Girdiyi sorgudan ayrı gönderen güvenli yöntem; SQL enjeksiyonunun ana çaresi.",
+   "cilt": 5
+  },
+  {
+   "terim": "Output encoding",
+   "tr": "Çıktı kodlama",
+   "aciklama": "Kullanıcı verisini sayfaya yazarken özel karakterleri etkisizleştirme; XSS'e karşı savunma.",
+   "cilt": 5
+  },
+  {
+   "terim": "Proxy",
+   "tr": "Aracı sunucu",
+   "aciklama": "İstemci ile sunucu arasına girip trafiği gösteren veya değiştiren araç (örn. Burp Suite).",
+   "cilt": 5
+  },
+  {
+   "terim": "API",
+   "tr": "Uygulama programlama arayüzü",
+   "aciklama": "Programların birbiriyle veri alışverişi yaptığı kapı.",
+   "cilt": 10
+  },
+  {
+   "terim": "BOLA",
+   "tr": "Nesne düzeyinde yetki bozukluğu",
+   "aciklama": "API'lerde IDOR'un adı; başkasının nesnesine kimlik numarasıyla erişebilme.",
+   "cilt": 10
+  },
+  {
+   "terim": "Mass assignment",
+   "tr": "Kütle atama",
+   "aciklama": "İstekteki fazladan alanların (örn. rol=admin) kontrolsüz biçimde kaydedilmesi.",
+   "cilt": 10
+  },
+  {
+   "terim": "Race condition",
+   "tr": "Yarış durumu",
+   "aciklama": "Aynı anda gelen iki isteğin kuralı atlatması (örn. bakiyeyi iki kez harcamak).",
+   "cilt": 10
+  },
+  {
+   "terim": "Idempotency",
+   "tr": "Tekrarlanabilirlik güvencesi",
+   "aciklama": "Aynı isteğin tekrarlanması durumunda işlemin yalnızca bir kez gerçekleşmesi.",
+   "cilt": 10
+  },
+  {
+   "terim": "Maker-checker",
+   "tr": "Hazırlayan-onaylayan",
+   "aciklama": "Bir işlemi bir kişinin hazırlayıp başka birinin onaylaması ilkesi.",
+   "cilt": 10
+  },
+  {
+   "terim": "Segregation of duties",
+   "tr": "Görev ayrılığı",
+   "aciklama": "Tehlikeli bir işlemin tamamının tek kişide toplanmaması.",
+   "cilt": 10
+  },
+  {
+   "terim": "Ghost employee",
+   "tr": "Hayalet çalışan",
+   "aciklama": "Bordroda adı geçen ama aslında var olmayan çalışan; sahtecilik türü.",
+   "cilt": 10
+  },
+  {
+   "terim": "Audit trail",
+   "tr": "Denetim izi",
+   "aciklama": "Kim, ne zaman, ne yaptı sorusuna cevap veren değiştirilemez kayıtlar.",
+   "cilt": 10
+  },
+  {
+   "terim": "KVKK",
+   "tr": "Kişisel Verilerin Korunması Kanunu",
+   "aciklama": "Türkiye'de kişisel verilerin korunmasını düzenleyen kanun.",
+   "cilt": 10
+  },
+  {
+   "terim": "PCI-DSS",
+   "tr": "",
+   "aciklama": "Kart bilgilerini işleyen kuruluşların uyması gereken güvenlik standardı.",
+   "cilt": 10
+  },
+  {
+   "terim": "ISO 27001",
+   "tr": "",
+   "aciklama": "Bilgi güvenliği yönetim sistemi için uluslararası standart.",
+   "cilt": 10
+  },
+  {
+   "terim": "SOC 2",
+   "tr": "",
+   "aciklama": "Hizmet sağlayıcıların güvenlik kontrollerini denetleyen rapor çerçevesi.",
+   "cilt": 10
+  },
+  {
+   "terim": "Tokenization",
+   "tr": "Tokenizasyon",
+   "aciklama": "Hassas veriyi (kart no gibi) anlamsız bir yer tutucuyla değiştirip asılını ayrı yerde saklama.",
+   "cilt": 10
+  },
+  {
+   "terim": "Reentrancy",
+   "tr": "Yeniden giriş",
+   "aciklama": "Akıllı sözleşmede, bir fonksiyon bitmeden tekrar çağrılıp para çekilmesine izin veren hata.",
+   "cilt": 10
+  },
+  {
+   "terim": "Smart contract",
+   "tr": "Akıllı sözleşme",
+   "aciklama": "Blokzincirde çalışan, değiştirilemeyen otomatik program.",
+   "cilt": 10
+  },
+  {
+   "terim": "Kerberoasting",
+   "tr": "",
+   "aciklama": "Active Directory'de servis hesaplarının parola özetlerini isteyip çevrimdışı kırmaya çalışan teknik.",
+   "cilt": 6
+  },
+  {
+   "terim": "Active Directory",
+   "tr": "Etkin Dizin",
+   "aciklama": "Windows kurumsal ağlarında kullanıcı ve bilgisayarları merkezden yöneten dizin servisi.",
+   "cilt": 6
+  },
+  {
+   "terim": "Pass-the-hash",
+   "tr": "",
+   "aciklama": "Parolayı bilmeden, onun özetini kullanarak kimlik doğrulama yapma tekniği.",
+   "cilt": 6
+  },
+  {
+   "terim": "Domain controller",
+   "tr": "Etki alanı denetleyicisi",
+   "aciklama": "Active Directory'de kimlik doğrulamayı yöneten sunucu.",
+   "cilt": 6
+  },
+  {
+   "terim": "Kerberos",
+   "tr": "",
+   "aciklama": "Windows etki alanlarında kullanılan bilet tabanlı kimlik doğrulama protokolü.",
+   "cilt": 6
+  },
+  {
+   "terim": "SUID",
+   "tr": "",
+   "aciklama": "Bir dosyayı çalıştıran kişi yerine dosyanın sahibinin yetkisiyle çalıştıran Linux izni; yanlış yapılandırılırsa yetki yükseltmeye yol açar.",
+   "cilt": 1
+  },
+  {
+   "terim": "Sudo",
+   "tr": "",
+   "aciklama": "Bir komutu başka bir kullanıcı (genelde root) yetkisiyle çalıştırmaya yarayan komut.",
+   "cilt": 1
+  },
+  {
+   "terim": "Root",
+   "tr": "Kök kullanıcı",
+   "aciklama": "Linux'ta her şeye yetkisi olan en üst hesap.",
+   "cilt": 1
+  },
+  {
+   "terim": "Shell",
+   "tr": "Kabuk",
+   "aciklama": "Komut yazıp çalıştırdığın program (örn. bash).",
+   "cilt": 1
+  },
+  {
+   "terim": "Pipe",
+   "tr": "Boru",
+   "aciklama": "Bir komutun çıktısını bir sonrakinin girdisi yapan | işareti.",
+   "cilt": 1
+  },
+  {
+   "terim": "Cron",
+   "tr": "",
+   "aciklama": "Linux'ta komutları belirli zamanlarda otomatik çalıştıran zamanlayıcı.",
+   "cilt": 1
+  },
+  {
+   "terim": "Daemon",
+   "tr": "Arka plan servisi",
+   "aciklama": "Arka planda sürekli çalışan program.",
+   "cilt": 1
+  },
+  {
+   "terim": "Log",
+   "tr": "Kayıt",
+   "aciklama": "Sistemin veya uygulamanın olayları zamanıyla birlikte yazdığı dosya.",
+   "cilt": 1
+  },
+  {
+   "terim": "GTFOBins",
+   "tr": "",
+   "aciklama": "Normal Linux araçlarının yetki yükseltmede nasıl kötüye kullanılabileceğini listeleyen kaynak.",
+   "cilt": 6
+  },
+  {
+   "terim": "Metasploit",
+   "tr": "",
+   "aciklama": "Zafiyet test etmek için kullanılan, hazır modüller içeren sızma testi çerçevesi.",
+   "cilt": 6
+  },
+  {
+   "terim": "Meterpreter",
+   "tr": "",
+   "aciklama": "Metasploit'in, hedefte çalışan gelişmiş uzaktan kontrol oturumu.",
+   "cilt": 6
+  },
+  {
+   "terim": "Shodan",
+   "tr": "",
+   "aciklama": "İnternete açık cihazları ve servisleri tarayıp aranabilir yapan arama motoru.",
+   "cilt": 4
+  },
+  {
+   "terim": "Google dork",
+   "tr": "",
+   "aciklama": "Arama motoru operatörleriyle (site:, filetype:) normalde gözden kaçan bilgileri bulma yöntemi.",
+   "cilt": 4
+  },
+  {
+   "terim": "OSINT",
+   "tr": "Açık kaynak istihbaratı",
+   "aciklama": "Herkese açık kaynaklardan (web, sosyal medya, kayıtlar) bilgi toplama.",
+   "cilt": 4
+  },
+  {
+   "terim": "Subdomain",
+   "tr": "Alt alan adı",
+   "aciklama": "Ana alan adının altındaki adres (örn. mail.ornek.com).",
+   "cilt": 4
+  },
+  {
+   "terim": "Certificate Transparency",
+   "tr": "Sertifika şeffaflığı",
+   "aciklama": "Verilen tüm TLS sertifikalarının herkese açık kaydı; alt alan adı bulmakta işe yarar.",
+   "cilt": 4
+  },
+  {
+   "terim": "Port scan",
+   "tr": "Port taraması",
+   "aciklama": "Bir makinede hangi portların açık olduğunu yoklama.",
+   "cilt": 4
+  },
+  {
+   "terim": "Banner grabbing",
+   "tr": "Afiş yakalama",
+   "aciklama": "Servisin kendini tanıttığı mesajdan yazılım ve sürümünü öğrenme.",
+   "cilt": 3
+  },
+  {
+   "terim": "Fuzzing",
+   "tr": "",
+   "aciklama": "Programa ya da web sitesine çok sayıda rastgele ve beklenmedik girdi göndererek hata veya gizli yol arama.",
+   "cilt": 4
+  },
+  {
+   "terim": "Wordlist",
+   "tr": "Kelime listesi",
+   "aciklama": "Parola veya dizin denemelerinde kullanılan hazır kelime dosyası.",
+   "cilt": 4
+  },
+  {
+   "terim": "TCP",
+   "tr": "İletim Kontrol Protokolü",
+   "aciklama": "Veriyi sıralı ve güvenilir ileten, önce el sıkışma yapan protokol.",
+   "cilt": 2
+  },
+  {
+   "terim": "UDP",
+   "tr": "",
+   "aciklama": "Hızlı ama güvence vermeyen, bağlantı kurmayan protokol.",
+   "cilt": 2
+  },
+  {
+   "terim": "Three-way handshake",
+   "tr": "Üçlü el sıkışma",
+   "aciklama": "TCP bağlantısının SYN, SYN-ACK, ACK adımlarıyla kurulması.",
+   "cilt": 2
+  },
+  {
+   "terim": "Port",
+   "tr": "",
+   "aciklama": "Bir makinedeki servislerin numaralı kapıları (örn. web için 80).",
+   "cilt": 2
+  },
+  {
+   "terim": "DNS",
+   "tr": "Alan adı sistemi",
+   "aciklama": "Alan adlarını IP adreslerine çeviren internetin telefon rehberi.",
+   "cilt": 2
+  },
+  {
+   "terim": "ARP",
+   "tr": "Adres çözümleme protokolü",
+   "aciklama": "Yerel ağda IP adresinden cihazın MAC adresini bulan protokol.",
+   "cilt": 2
+  },
+  {
+   "terim": "ARP spoofing",
+   "tr": "ARP sahteciliği",
+   "aciklama": "Ağdaki trafiği kendine yönlendirmek için sahte ARP cevapları yollama.",
+   "cilt": 2
+  },
+  {
+   "terim": "MAC address",
+   "tr": "MAC adresi",
+   "aciklama": "Ağ kartının üzerinde yazılı, yerel ağda kullanılan donanım adresi.",
+   "cilt": 2
+  },
+  {
+   "terim": "Subnet",
+   "tr": "Alt ağ",
+   "aciklama": "Büyük bir IP aralığının daha küçük parçalara bölünmüş hali.",
+   "cilt": 2
+  },
+  {
+   "terim": "CIDR",
+   "tr": "",
+   "aciklama": "Alt ağ boyutunu /24 gibi bir eklentiyle gösteren yazım.",
+   "cilt": 2
+  },
+  {
+   "terim": "HTTP",
+   "tr": "",
+   "aciklama": "Tarayıcı ile web sunucusunun konuştuğu protokol.",
+   "cilt": 2
+  },
+  {
+   "terim": "TLS",
+   "tr": "",
+   "aciklama": "Trafiği şifreleyen protokol; HTTPS'teki S'nin kaynağı.",
+   "cilt": 2
+  },
+  {
+   "terim": "Packet capture (pcap)",
+   "tr": "Paket yakalama",
+   "aciklama": "Ağ trafiğinin kaydedildiği dosya biçimi; Wireshark ile açılır.",
+   "cilt": 2
+  },
+  {
+   "terim": "Sniffing",
+   "tr": "Ağ dinleme",
+   "aciklama": "Ağdan geçen trafiği yakalayıp inceleme.",
+   "cilt": 2
+  },
+  {
+   "terim": "Wireshark",
+   "tr": "",
+   "aciklama": "Yakalanan ağ trafiğini ayrıntılı gösteren grafik arayüzlü analiz aracı.",
+   "cilt": 2
+  },
+  {
+   "terim": "Man-in-the-middle",
+   "tr": "Ortadaki adam",
+   "aciklama": "Saldırganın iki taraf arasındaki iletişime gizlice girip okuması veya değiştirmesi.",
+   "cilt": 2
+  },
+  {
+   "terim": "Evil twin",
+   "tr": "Sahte ikiz erişim noktası",
+   "aciklama": "Gerçek Wi-Fi ağının adını taklit eden sahte erişim noktası; bağlananların trafiği izlenebilir.",
+   "cilt": 2
+  },
+  {
+   "terim": "Phishing",
+   "tr": "Oltalama",
+   "aciklama": "Sahte mesaj veya site ile kullanıcıdan bilgi çaldırma girişimi.",
+   "cilt": 8
+  },
+  {
+   "terim": "Social engineering",
+   "tr": "Sosyal mühendislik",
+   "aciklama": "Teknik açık yerine insanı kandırarak bilgi veya erişim elde etme.",
+   "cilt": 8
+  },
+  {
+   "terim": "Zero-day",
+   "tr": "Sıfırıncı gün açığı",
+   "aciklama": "Henüz üreticisinin haberi olmayan veya yaması bulunmayan zafiyet.",
+   "cilt": 7
+  },
+  {
+   "terim": "Patch",
+   "tr": "Yama",
+   "aciklama": "Bir zafiyeti kapatan yazılım güncellemesi.",
+   "cilt": 7
+  },
+  {
+   "terim": "CVSS",
+   "tr": "",
+   "aciklama": "Zafiyetin ciddiyetini 0 ile 10 arasında puanlayan ortak sistem.",
+   "cilt": 7
+  },
+  {
+   "terim": "Vulnerability management",
+   "tr": "Zafiyet yönetimi",
+   "aciklama": "Zafiyetleri sürekli bulma, önceliklendirme ve yamalama süreci.",
+   "cilt": 7
+  },
+  {
+   "terim": "Defense in depth",
+   "tr": "Derinlemesine savunma",
+   "aciklama": "Tek bir koruma yerine birden fazla katman kullanma ilkesi.",
+   "cilt": 7
+  },
+  {
+   "terim": "Least privilege",
+   "tr": "En az yetki",
+   "aciklama": "Herkese yalnızca işi için gereken en düşük yetkiyi verme ilkesi.",
+   "cilt": 7
+  },
+  {
+   "terim": "CIS Benchmark",
+   "tr": "",
+   "aciklama": "Sistemlerin güvenli yapılandırılması için yayımlanan ayrıntılı kontrol listeleri.",
+   "cilt": 7
+  },
+  {
+   "terim": "SIEM",
+   "tr": "Güvenlik olay yönetimi",
+   "aciklama": "Birçok kaynaktan logları toplayıp ilişkilendiren ve alarm üreten sistem.",
+   "cilt": 7
+  },
+  {
+   "terim": "IDS",
+   "tr": "Saldırı tespit sistemi",
+   "aciklama": "Trafikte saldırı belirtilerini arayıp uyarı veren sistem.",
+   "cilt": 7
+  },
+  {
+   "terim": "IPS",
+   "tr": "Saldırı önleme sistemi",
+   "aciklama": "IDS gibi tespit eder, ayrıca saldırıyı otomatik engeller.",
+   "cilt": 7
+  },
+  {
+   "terim": "Signature-based detection",
+   "tr": "İmza tabanlı tespit",
+   "aciklama": "Bilinen saldırı kalıplarını eşleştirerek tespit etme.",
+   "cilt": 7
+  },
+  {
+   "terim": "Anomaly detection",
+   "tr": "Anomali tespiti",
+   "aciklama": "Normalden sapan davranışı yakalayarak tespit etme.",
+   "cilt": 7
+  },
+  {
+   "terim": "Incident response",
+   "tr": "Olay müdahalesi",
+   "aciklama": "Güvenlik olayını tespit etme, sınırlama, temizleme ve toparlanma süreci.",
+   "cilt": 7
+  },
+  {
+   "terim": "Forensics",
+   "tr": "Adli bilişim",
+   "aciklama": "Bir olayda delilleri bozmadan toplayıp inceleme.",
+   "cilt": 7
+  },
+  {
+   "terim": "Indicator of Compromise (IoC)",
+   "tr": "Ele geçirilme göstergesi",
+   "aciklama": "Sistemin ele geçirildiğine işaret eden iz (şüpheli IP, dosya özeti gibi).",
+   "cilt": 7
+  },
+  {
+   "terim": "Honeypot",
+   "tr": "Bal küpü",
+   "aciklama": "Saldırganı çekmek ve izlemek için bilerek bırakılan sahte hedef.",
+   "cilt": 7
+  },
+  {
+   "terim": "Firewall",
+   "tr": "Güvenlik duvarı",
+   "aciklama": "Ağ trafiğini kurallara göre izin verip engelleyen sistem.",
+   "cilt": 7
+  },
+  {
+   "terim": "MITRE ATT&CK",
+   "tr": "",
+   "aciklama": "Saldırgan taktik ve tekniklerinin herkese açık bilgi tabanı.",
+   "cilt": 8
+  },
+  {
+   "terim": "PTES",
+   "tr": "",
+   "aciklama": "Sızma testi sürecini adımlara bölen standart metodoloji.",
+   "cilt": 8
+  },
+  {
+   "terim": "Bug bounty",
+   "tr": "Hata ödül programı",
+   "aciklama": "Şirketlerin, kendi sistemlerinde açık bulanlara ödül verdiği program.",
+   "cilt": 8
+  },
+  {
+   "terim": "VDP",
+   "tr": "Zafiyet bildirim politikası",
+   "aciklama": "Açık bulanın nasıl ve nereye bildirim yapacağını anlatan kurum politikası.",
+   "cilt": 8
+  },
+  {
+   "terim": "CTF",
+   "tr": "Bayrak yakalama yarışması",
+   "aciklama": "Güvenlik bulmacalarını çözüp bayrak toplayarak öğrenilen oyun.",
+   "cilt": 8
+  },
+  {
+   "terim": "Pentest",
+   "tr": "Sızma testi",
+   "aciklama": "Yetkiyle, bir sistemin güvenliğini saldırgan gibi sınama.",
+   "cilt": 0
+  },
+  {
+   "terim": "Ethical hacking",
+   "tr": "Etik hackerlık",
+   "aciklama": "Sistemleri sahibinin izniyle ve onları korumak amacıyla test etme.",
+   "cilt": 0
+  },
+  {
+   "terim": "Docker",
+   "tr": "",
+   "aciklama": "Uygulamaları yalıtılmış kutular (konteyner) içinde çalıştıran araç.",
+   "cilt": 9
+  },
+  {
+   "terim": "Container",
+   "tr": "Konteyner",
+   "aciklama": "Bir uygulamayı bağımlılıklarıyla birlikte paketleyen yalıtılmış çalışma ortamı.",
+   "cilt": 9
+  },
+  {
+   "terim": "Snapshot",
+   "tr": "Anlık görüntü",
+   "aciklama": "Sanal makinenin belirli bir andaki halini kaydedip sonra geri dönmeyi sağlayan özellik.",
+   "cilt": 9
+  },
+  {
+   "terim": "Home lab",
+   "tr": "Ev laboratuvarı",
+   "aciklama": "Güvenle denemek için kurduğun izole deneme ortamı.",
+   "cilt": 9
+  },
+  {
+   "terim": "Host-only network",
+   "tr": "Yalnız konak ağı",
+   "aciklama": "Sanal makinelerin yalnızca ana bilgisayarla konuşabildiği, internete çıkmayan ağ.",
+   "cilt": 9
+  },
+  {
+   "terim": "Salt",
+   "tr": "Tuz",
+   "aciklama": "Parola özetlenmeden önce eklenen rastgele veri; aynı parolaların aynı özeti vermesini önler.",
+   "cilt": 5
+  },
+  {
+   "terim": "Hash",
+   "tr": "Özet",
+   "aciklama": "Veriden üretilen sabit uzunlukta parmak izi; geri çevrilemez.",
+   "cilt": 5
+  },
+  {
+   "terim": "Obfuscation",
+   "tr": "Gizleme",
+   "aciklama": "Kodu veya veriyi anlaşılmaz hale getirme.",
+   "cilt": 3
+  }
+ ]
+}

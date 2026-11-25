@@ -1,0 +1,802 @@
+{
+ "komutlar": [
+  {
+   "ad": "whoami",
+   "kategori": "Linux",
+   "aciklama": "Hangi kullanıcı olarak çalıştığını gösterir.",
+   "ornek": "whoami",
+   "cilt": 1
+  },
+  {
+   "ad": "id",
+   "kategori": "Linux",
+   "aciklama": "Kullanıcı ve grup kimliklerini gösterir.",
+   "ornek": "id",
+   "cilt": 1
+  },
+  {
+   "ad": "hostname",
+   "kategori": "Linux",
+   "aciklama": "Makinenin adını verir.",
+   "ornek": "hostname",
+   "cilt": 1
+  },
+  {
+   "ad": "pwd",
+   "kategori": "Linux",
+   "aciklama": "Bulunduğun dizini yazar.",
+   "ornek": "pwd",
+   "cilt": 1
+  },
+  {
+   "ad": "ls -la",
+   "kategori": "Linux",
+   "aciklama": "Gizli dosyalar dahil ayrıntılı dosya listesi verir.",
+   "ornek": "ls -la /etc",
+   "cilt": 1
+  },
+  {
+   "ad": "cd",
+   "kategori": "Linux",
+   "aciklama": "Başka bir dizine geçer.",
+   "ornek": "cd /var/log",
+   "cilt": 1
+  },
+  {
+   "ad": "cd ..",
+   "kategori": "Linux",
+   "aciklama": "Bir üst dizine çıkar.",
+   "ornek": "cd ..",
+   "cilt": 1
+  },
+  {
+   "ad": "cat",
+   "kategori": "Linux",
+   "aciklama": "Dosyanın içeriğini ekrana yazar.",
+   "ornek": "cat /etc/hostname",
+   "cilt": 1
+  },
+  {
+   "ad": "less",
+   "kategori": "Linux",
+   "aciklama": "Uzun dosyayı sayfa sayfa okutur.",
+   "ornek": "less /var/log/syslog",
+   "cilt": 1
+  },
+  {
+   "ad": "head -n",
+   "kategori": "Linux",
+   "aciklama": "Dosyanın ilk satırlarını gösterir.",
+   "ornek": "head -n 5 access.log",
+   "cilt": 1
+  },
+  {
+   "ad": "tail -f",
+   "kategori": "Linux",
+   "aciklama": "Dosyanın sonunu canlı izler.",
+   "ornek": "tail -f access.log",
+   "cilt": 1
+  },
+  {
+   "ad": "touch",
+   "kategori": "Linux",
+   "aciklama": "Boş dosya oluşturur.",
+   "ornek": "touch notlar.txt",
+   "cilt": 1
+  },
+  {
+   "ad": "mkdir -p",
+   "kategori": "Linux",
+   "aciklama": "İç içe dizinleri tek seferde oluşturur.",
+   "ornek": "mkdir -p lab/rapor",
+   "cilt": 1
+  },
+  {
+   "ad": "cp -r",
+   "kategori": "Linux",
+   "aciklama": "Dosya veya dizini kopyalar.",
+   "ornek": "cp -r lab lab_yedek",
+   "cilt": 1
+  },
+  {
+   "ad": "mv",
+   "kategori": "Linux",
+   "aciklama": "Dosyayı taşır veya yeniden adlandırır.",
+   "ornek": "mv notlar.txt eski.txt",
+   "cilt": 1
+  },
+  {
+   "ad": "rm -r",
+   "kategori": "Linux",
+   "aciklama": "Dosya veya dizini siler; dikkatli kullan.",
+   "ornek": "rm -r lab_yedek",
+   "cilt": 1
+  },
+  {
+   "ad": "file",
+   "kategori": "Linux",
+   "aciklama": "Dosyanın gerçek türünü söyler.",
+   "ornek": "file notlar.txt",
+   "cilt": 1
+  },
+  {
+   "ad": "find -name",
+   "kategori": "Arama",
+   "aciklama": "Ada göre dosya arar.",
+   "ornek": "find . -name \"*.log\"",
+   "cilt": 1
+  },
+  {
+   "ad": "find -type -mtime",
+   "kategori": "Arama",
+   "aciklama": "Türe ve değişiklik zamanına göre dosya arar.",
+   "ornek": "find . -type f -mtime -1",
+   "cilt": 1
+  },
+  {
+   "ad": "find -perm",
+   "kategori": "Arama",
+   "aciklama": "İzin değerine göre dosya arar.",
+   "ornek": "find . -perm -644 -type f",
+   "cilt": 1
+  },
+  {
+   "ad": "grep -i",
+   "kategori": "Metin",
+   "aciklama": "Büyük/küçük harf ayırmadan arar.",
+   "ornek": "grep -i \"error\" app.log",
+   "cilt": 1
+  },
+  {
+   "ad": "grep -v",
+   "kategori": "Metin",
+   "aciklama": "Eşleşmeyen satırları gösterir.",
+   "ornek": "grep -v \"200\" access.log",
+   "cilt": 1
+  },
+  {
+   "ad": "grep -c",
+   "kategori": "Metin",
+   "aciklama": "Eşleşen satır sayısını verir.",
+   "ornek": "grep -c \"401\" access.log",
+   "cilt": 1
+  },
+  {
+   "ad": "grep -r",
+   "kategori": "Metin",
+   "aciklama": "Dizinde tüm dosyalarda arar.",
+   "ornek": "grep -r \"password\" ./lab",
+   "cilt": 1
+  },
+  {
+   "ad": "grep -oE",
+   "kategori": "Metin",
+   "aciklama": "Düzenli ifadeyle yalnızca eşleşen kısmı yazar.",
+   "ornek": "grep -oE \"[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\" access.log",
+   "cilt": 1
+  },
+  {
+   "ad": "cut -d -f",
+   "kategori": "Metin",
+   "aciklama": "Ayırıcıya göre sütun keser.",
+   "ornek": "cut -d: -f1 /etc/passwd",
+   "cilt": 1
+  },
+  {
+   "ad": "sort",
+   "kategori": "Metin",
+   "aciklama": "Satırları sıralar.",
+   "ornek": "sort isimler.txt",
+   "cilt": 1
+  },
+  {
+   "ad": "uniq -c",
+   "kategori": "Metin",
+   "aciklama": "Tekrarlayan satırları sayar (önce sort ile).",
+   "ornek": "sort ip.txt | uniq -c",
+   "cilt": 1
+  },
+  {
+   "ad": "wc -l",
+   "kategori": "Metin",
+   "aciklama": "Satır sayısını verir.",
+   "ornek": "wc -l access.log",
+   "cilt": 1
+  },
+  {
+   "ad": "awk",
+   "kategori": "Metin",
+   "aciklama": "Sütun bazlı metin işleme yapar.",
+   "ornek": "awk '{print $1}' access.log",
+   "cilt": 1
+  },
+  {
+   "ad": "chmod",
+   "kategori": "Linux",
+   "aciklama": "Dosya izinlerini değiştirir.",
+   "ornek": "chmod 640 notlar.txt",
+   "cilt": 1
+  },
+  {
+   "ad": "chown",
+   "kategori": "Linux",
+   "aciklama": "Dosya sahibini değiştirir.",
+   "ornek": "chown $USER notlar.txt",
+   "cilt": 1
+  },
+  {
+   "ad": "sudo -l",
+   "kategori": "Linux",
+   "aciklama": "Hangi komutları sudo ile çalıştırabildiğini listeler.",
+   "ornek": "sudo -l",
+   "cilt": 1
+  },
+  {
+   "ad": "find / -perm -4000",
+   "kategori": "Linux",
+   "aciklama": "Sistemdeki SUID dosyaları listeler; yetki yükseltme denetiminin parçası.",
+   "ornek": "find / -perm -4000 -type f 2>/dev/null",
+   "cilt": 6
+  },
+  {
+   "ad": "ps aux",
+   "kategori": "Linux",
+   "aciklama": "Çalışan tüm süreçleri listeler.",
+   "ornek": "ps aux | head",
+   "cilt": 1
+  },
+  {
+   "ad": "kill",
+   "kategori": "Linux",
+   "aciklama": "Bir sürece sonlandırma sinyali yollar.",
+   "ornek": "kill 1234",
+   "cilt": 1
+  },
+  {
+   "ad": "systemctl",
+   "kategori": "Linux",
+   "aciklama": "Servisleri yönetir ve durumunu gösterir.",
+   "ornek": "systemctl status ssh",
+   "cilt": 1
+  },
+  {
+   "ad": "journalctl",
+   "kategori": "Linux",
+   "aciklama": "Sistem günlüklerini okur.",
+   "ornek": "journalctl -u ssh --since today",
+   "cilt": 1
+  },
+  {
+   "ad": "crontab",
+   "kategori": "Linux",
+   "aciklama": "Zamanlanmış görevleri listeler veya düzenler.",
+   "ornek": "crontab -l",
+   "cilt": 1
+  },
+  {
+   "ad": "ip a",
+   "kategori": "Ağ",
+   "aciklama": "Ağ arayüzlerini ve IP adreslerini gösterir.",
+   "ornek": "ip a",
+   "cilt": 2
+  },
+  {
+   "ad": "ip r",
+   "kategori": "Ağ",
+   "aciklama": "Yönlendirme tablosunu gösterir.",
+   "ornek": "ip r",
+   "cilt": 2
+  },
+  {
+   "ad": "ip neigh",
+   "kategori": "Ağ",
+   "aciklama": "ARP tablosunu (komşu cihazlar) gösterir.",
+   "ornek": "ip neigh",
+   "cilt": 2
+  },
+  {
+   "ad": "ping -c",
+   "kategori": "Ağ",
+   "aciklama": "Bir adrese belirli sayıda ping atar.",
+   "ornek": "ping -c 3 127.0.0.1",
+   "cilt": 2
+  },
+  {
+   "ad": "traceroute",
+   "kategori": "Ağ",
+   "aciklama": "Paketin hedefe giderken geçtiği duraklar.",
+   "ornek": "traceroute 127.0.0.1",
+   "cilt": 2
+  },
+  {
+   "ad": "ss -tulpn",
+   "kategori": "Ağ",
+   "aciklama": "Dinleyen portları ve hangi süreç olduğunu gösterir.",
+   "ornek": "ss -tulpn",
+   "cilt": 2
+  },
+  {
+   "ad": "nc -v",
+   "kategori": "Ağ",
+   "aciklama": "Bir porta bağlanıp bağlanamadığını sınar.",
+   "ornek": "nc -v 127.0.0.1 80",
+   "cilt": 2
+  },
+  {
+   "ad": "nc -lvp",
+   "kategori": "Ağ",
+   "aciklama": "Bir portta dinleyerek yerel bağlantı testi yapar.",
+   "ornek": "nc -lvp 9000",
+   "cilt": 2
+  },
+  {
+   "ad": "dig",
+   "kategori": "DNS",
+   "aciklama": "Alan adı sorgular.",
+   "ornek": "dig ornek.com",
+   "cilt": 2
+  },
+  {
+   "ad": "dig +short",
+   "kategori": "DNS",
+   "aciklama": "Yalnızca kısa cevabı yazar.",
+   "ornek": "dig +short ornek.com",
+   "cilt": 2
+  },
+  {
+   "ad": "dig MX/TXT/NS",
+   "kategori": "DNS",
+   "aciklama": "Belirli kayıt türünü sorgular.",
+   "ornek": "dig MX ornek.com",
+   "cilt": 2
+  },
+  {
+   "ad": "dig -x",
+   "kategori": "DNS",
+   "aciklama": "IP adresinden alan adı bulur (ters sorgu).",
+   "ornek": "dig -x 127.0.0.1",
+   "cilt": 2
+  },
+  {
+   "ad": "curl -v",
+   "kategori": "Web",
+   "aciklama": "İstek ve cevabı ayrıntılı gösterir.",
+   "ornek": "curl -v http://127.0.0.1:8080",
+   "cilt": 2
+  },
+  {
+   "ad": "curl -I",
+   "kategori": "Web",
+   "aciklama": "Yalnızca cevap başlıklarını getirir.",
+   "ornek": "curl -I http://127.0.0.1:8080",
+   "cilt": 2
+  },
+  {
+   "ad": "curl -X POST -d",
+   "kategori": "Web",
+   "aciklama": "POST isteği gönderir.",
+   "ornek": "curl -X POST -d \"ad=deneme\" http://127.0.0.1:8080/form",
+   "cilt": 2
+  },
+  {
+   "ad": "tcpdump -i",
+   "kategori": "Ağ",
+   "aciklama": "Bir arayüzdeki trafiği yakalar.",
+   "ornek": "tcpdump -i lo -c 10",
+   "cilt": 2
+  },
+  {
+   "ad": "tcpdump -A",
+   "kategori": "Ağ",
+   "aciklama": "Paket içeriğini metin olarak gösterir.",
+   "ornek": "tcpdump -i lo -A -c 5",
+   "cilt": 2
+  },
+  {
+   "ad": "tcpdump -w",
+   "kategori": "Ağ",
+   "aciklama": "Yakalanan trafiği pcap dosyasına yazar.",
+   "ornek": "tcpdump -i lo -w kayit.pcap -c 50",
+   "cilt": 2
+  },
+  {
+   "ad": "wireshark",
+   "kategori": "Ağ",
+   "aciklama": "Trafiği grafik arayüzle inceler.",
+   "ornek": "wireshark kayit.pcap",
+   "cilt": 2
+  },
+  {
+   "ad": "#!/bin/bash",
+   "kategori": "Otomasyon",
+   "aciklama": "Betiğin bash ile çalışacağını belirten ilk satır.",
+   "ornek": "#!/bin/bash",
+   "cilt": 3
+  },
+  {
+   "ad": "$1 $# $0",
+   "kategori": "Otomasyon",
+   "aciklama": "Betiğe verilen argüman, argüman sayısı ve betik adı.",
+   "ornek": "echo \"Hedef: $1\"",
+   "cilt": 3
+  },
+  {
+   "ad": "if [ -z ]",
+   "kategori": "Otomasyon",
+   "aciklama": "Değişken boşsa kontrol eder.",
+   "ornek": "if [ -z \"$1\" ]; then echo \"argüman ver\"; fi",
+   "cilt": 3
+  },
+  {
+   "ad": "for ... seq",
+   "kategori": "Otomasyon",
+   "aciklama": "Sayı aralığında döngü kurar.",
+   "ornek": "for i in $(seq 1 5); do echo $i; done",
+   "cilt": 3
+  },
+  {
+   "ad": "& ve wait",
+   "kategori": "Otomasyon",
+   "aciklama": "Komutları arka planda paralel çalıştırır, bitmelerini bekler.",
+   "ornek": "sleep 2 & sleep 2 & wait",
+   "cilt": 3
+  },
+  {
+   "ad": "sys.argv",
+   "kategori": "Otomasyon",
+   "aciklama": "Python'da komut satırı argümanlarını okur.",
+   "ornek": "python -c \"import sys; print(sys.argv)\" a b",
+   "cilt": 3
+  },
+  {
+   "ad": "socket",
+   "kategori": "Otomasyon",
+   "aciklama": "Python'da ağ bağlantısı kurmak için modül.",
+   "ornek": "python -c \"import socket; print(socket.gethostname())\"",
+   "cilt": 3
+  },
+  {
+   "ad": "connect_ex",
+   "kategori": "Otomasyon",
+   "aciklama": "Python soketiyle porta bağlanmayı dener, hata kodu döner.",
+   "ornek": "python -c \"import socket; s=socket.socket(); print(s.connect_ex(('127.0.0.1',80)))\"",
+   "cilt": 3
+  },
+  {
+   "ad": "requests.get",
+   "kategori": "Otomasyon",
+   "aciklama": "Python'da HTTP GET isteği atar.",
+   "ornek": "python -c \"import requests; print(requests.get('http://127.0.0.1:8080').status_code)\"",
+   "cilt": 3
+  },
+  {
+   "ad": "re.compile",
+   "kategori": "Otomasyon",
+   "aciklama": "Python'da düzenli ifade kalıbı hazırlar.",
+   "ornek": "python -c \"import re; print(re.compile(r'\\d+').findall('a12b3'))\"",
+   "cilt": 3
+  },
+  {
+   "ad": "Counter.most_common",
+   "kategori": "Otomasyon",
+   "aciklama": "Python'da en sık geçenleri sayar ve sıralar.",
+   "ornek": "python -c \"from collections import Counter; print(Counter('aabbbc').most_common(1))\"",
+   "cilt": 3
+  },
+  {
+   "ad": "site: filetype: inurl:",
+   "kategori": "Keşif",
+   "aciklama": "Google dork operatörleri; aramayı daraltır.",
+   "ornek": "site:ornek.com filetype:pdf",
+   "cilt": 4
+  },
+  {
+   "ad": "crt.sh",
+   "kategori": "Keşif",
+   "aciklama": "Sertifika kayıtlarından alt alan adı bulan site.",
+   "ornek": "curl -s \"https://crt.sh/?q=ornek.com&output=json\"",
+   "cilt": 4
+  },
+  {
+   "ad": "subfinder",
+   "kategori": "Keşif",
+   "aciklama": "Pasif kaynaklardan alt alan adı bulur.",
+   "ornek": "subfinder -d ornek.com",
+   "cilt": 4
+  },
+  {
+   "ad": "amass",
+   "kategori": "Keşif",
+   "aciklama": "Alt alan adı keşfi ve ağ haritalama aracı.",
+   "ornek": "amass enum -passive -d ornek.com",
+   "cilt": 4
+  },
+  {
+   "ad": "httpx",
+   "kategori": "Keşif",
+   "aciklama": "Alan adı listesinden hangilerinin web yanıtı verdiğini yoklar.",
+   "ornek": "httpx -l altalanlar.txt",
+   "cilt": 4
+  },
+  {
+   "ad": "shodan host",
+   "kategori": "Keşif",
+   "aciklama": "Bir IP'nin Shodan'daki kayıtlarını gösterir.",
+   "ornek": "shodan host 203.0.113.10",
+   "cilt": 4
+  },
+  {
+   "ad": "shodan search",
+   "kategori": "Keşif",
+   "aciklama": "Shodan'da arama yapar.",
+   "ornek": "shodan search apache",
+   "cilt": 4
+  },
+  {
+   "ad": "Censys",
+   "kategori": "Keşif",
+   "aciklama": "İnternete açık cihazları arayan Shodan benzeri servis.",
+   "ornek": "censys search \"services.port=443\"",
+   "cilt": 4
+  },
+  {
+   "ad": "nmap -sn",
+   "kategori": "Keşif",
+   "aciklama": "Port taramadan, ağda canlı cihazları bulur.",
+   "ornek": "nmap -sn 127.0.0.0/30",
+   "cilt": 4
+  },
+  {
+   "ad": "nmap -sV <hedef>",
+   "kategori": "Keşif",
+   "aciklama": "Açık portlardaki servislerin sürümünü tespit eder.",
+   "ornek": "nmap -sV 127.0.0.1",
+   "cilt": 4
+  },
+  {
+   "ad": "nmap -sC -sV -p-",
+   "kategori": "Keşif",
+   "aciklama": "Tüm portlarda varsayılan betikler ve sürüm taraması yapar.",
+   "ornek": "nmap -sC -sV -p- 127.0.0.1",
+   "cilt": 4
+  },
+  {
+   "ad": "nmap --script",
+   "kategori": "Keşif",
+   "aciklama": "Seçilen nmap betiğini çalıştırır.",
+   "ornek": "nmap --script http-title 127.0.0.1",
+   "cilt": 4
+  },
+  {
+   "ad": "whatweb",
+   "kategori": "Keşif",
+   "aciklama": "Web sitesinin kullandığı teknolojileri tanır.",
+   "ornek": "whatweb http://127.0.0.1:8080",
+   "cilt": 4
+  },
+  {
+   "ad": "gobuster dir",
+   "kategori": "Keşif",
+   "aciklama": "Kelime listesiyle web sunucusunda gizli dizin arar.",
+   "ornek": "gobuster dir -u http://127.0.0.1:8080 -w kelimeler.txt",
+   "cilt": 4
+  },
+  {
+   "ad": "ffuf",
+   "kategori": "Keşif",
+   "aciklama": "Web'de hızlı dizin ve parametre denemesi yapar.",
+   "ornek": "ffuf -u http://127.0.0.1:8080/FUZZ -w kelimeler.txt",
+   "cilt": 4
+  },
+  {
+   "ad": "robots.txt",
+   "kategori": "Keşif",
+   "aciklama": "Sitenin arama motorlarına yasakladığı yolları gösterir; ipucu olabilir.",
+   "ornek": "curl http://127.0.0.1:8080/robots.txt",
+   "cilt": 4
+  },
+  {
+   "ad": "Burp Suite",
+   "kategori": "Web",
+   "aciklama": "Tarayıcı trafiğini yakalayıp inceleyen ve yeniden gönderen web test aracı.",
+   "ornek": "burpsuite",
+   "cilt": 5
+  },
+  {
+   "ad": "Burp Repeater",
+   "kategori": "Web",
+   "aciklama": "Yakalanan isteği değiştirip tekrar tekrar göndermeye yarar.",
+   "ornek": "Proxy'den isteği Repeater'a gönder",
+   "cilt": 5
+  },
+  {
+   "ad": "sqlmap",
+   "kategori": "Web",
+   "aciklama": "SQL enjeksiyonu zafiyetini otomatik sınayan araç; yalnız kendi lab hedefinde kullan.",
+   "ornek": "sqlmap --help",
+   "cilt": 5
+  },
+  {
+   "ad": "hydra",
+   "kategori": "Web",
+   "aciklama": "Giriş formlarına ve servislere parola denemesi yapan araç; yalnız izinli lab hedefinde.",
+   "ornek": "hydra -h",
+   "cilt": 5
+  },
+  {
+   "ad": "searchsploit",
+   "kategori": "Sızma",
+   "aciklama": "Exploit-DB'de bilinen zafiyetleri yerelde arar.",
+   "ornek": "searchsploit apache 2.4",
+   "cilt": 6
+  },
+  {
+   "ad": "Metasploit (msfconsole)",
+   "kategori": "Sızma",
+   "aciklama": "Zafiyet test çerçevesini başlatan komut.",
+   "ornek": "msfconsole",
+   "cilt": 6
+  },
+  {
+   "ad": "linpeas",
+   "kategori": "Sızma",
+   "aciklama": "Linux'ta yetki yükseltme ipuçlarını tarayıp raporlayan betik; yalnız lab ortamında.",
+   "ornek": "./linpeas.sh",
+   "cilt": 6
+  },
+  {
+   "ad": "whoami /priv",
+   "kategori": "Sızma",
+   "aciklama": "Windows'ta mevcut kullanıcının ayrıcalıklarını gösterir.",
+   "ornek": "whoami /priv",
+   "cilt": 6
+  },
+  {
+   "ad": "BloodHound",
+   "kategori": "Sızma",
+   "aciklama": "Active Directory ilişkilerini grafikle haritalayan analiz aracı.",
+   "ornek": "bloodhound",
+   "cilt": 6
+  },
+  {
+   "ad": "GTFOBins",
+   "kategori": "Sızma",
+   "aciklama": "Normal Linux araçlarının kötüye kullanım yollarını listeleyen web kaynağı.",
+   "ornek": "gtfobins.github.io",
+   "cilt": 6
+  },
+  {
+   "ad": "ssh-keygen",
+   "kategori": "Savunma",
+   "aciklama": "SSH anahtar çifti üretir; parola yerine anahtarla giriş sağlar.",
+   "ornek": "ssh-keygen -t ed25519",
+   "cilt": 7
+  },
+  {
+   "ad": "ufw",
+   "kategori": "Savunma",
+   "aciklama": "Linux'ta basit güvenlik duvarı yönetir.",
+   "ornek": "sudo ufw status",
+   "cilt": 7
+  },
+  {
+   "ad": "iptables -L",
+   "kategori": "Savunma",
+   "aciklama": "Güvenlik duvarı kurallarını listeler.",
+   "ornek": "sudo iptables -L -n",
+   "cilt": 7
+  },
+  {
+   "ad": "last",
+   "kategori": "Savunma",
+   "aciklama": "Son giriş yapan kullanıcıları listeler.",
+   "ornek": "last -n 10",
+   "cilt": 7
+  },
+  {
+   "ad": "lastb",
+   "kategori": "Savunma",
+   "aciklama": "Başarısız giriş denemelerini listeler.",
+   "ornek": "sudo lastb | head",
+   "cilt": 7
+  },
+  {
+   "ad": "Snort",
+   "kategori": "Savunma",
+   "aciklama": "Kural tabanlı saldırı tespit/önleme sistemi.",
+   "ornek": "snort -V",
+   "cilt": 7
+  },
+  {
+   "ad": "Suricata",
+   "kategori": "Savunma",
+   "aciklama": "Çok iş parçacıklı saldırı tespit/önleme sistemi.",
+   "ornek": "suricata --build-info",
+   "cilt": 7
+  },
+  {
+   "ad": "Zeek",
+   "kategori": "Savunma",
+   "aciklama": "Ağ trafiğini ayrıntılı kayda dönüştüren analiz aracı.",
+   "ornek": "zeek -r kayit.pcap",
+   "cilt": 7
+  },
+  {
+   "ad": "Wazuh",
+   "kategori": "Savunma",
+   "aciklama": "Açık kaynaklı SIEM ve uç nokta izleme platformu.",
+   "ornek": "systemctl status wazuh-manager",
+   "cilt": 7
+  },
+  {
+   "ad": "sha256sum",
+   "kategori": "Savunma",
+   "aciklama": "Dosyanın SHA-256 özetini hesaplar; bütünlük ve delil doğrulama için.",
+   "ornek": "sha256sum notlar.txt",
+   "cilt": 7
+  },
+  {
+   "ad": "apt install docker.io",
+   "kategori": "Docker",
+   "aciklama": "Docker'ı Debian tabanlı sisteme kurar.",
+   "ornek": "sudo apt install docker.io",
+   "cilt": 9
+  },
+  {
+   "ad": "docker run -d -p",
+   "kategori": "Docker",
+   "aciklama": "Konteyneri arka planda ve port eşlemesiyle başlatır.",
+   "ornek": "docker run -d -p 127.0.0.1:3000:3000 bkimminich/juice-shop",
+   "cilt": 9
+  },
+  {
+   "ad": "docker ps",
+   "kategori": "Docker",
+   "aciklama": "Çalışan konteynerleri listeler.",
+   "ornek": "docker ps",
+   "cilt": 9
+  },
+  {
+   "ad": "docker stop/rm",
+   "kategori": "Docker",
+   "aciklama": "Konteyneri durdurur veya siler.",
+   "ornek": "docker stop juice && docker rm juice",
+   "cilt": 9
+  },
+  {
+   "ad": "docker logs",
+   "kategori": "Docker",
+   "aciklama": "Konteynerin çıktısını gösterir.",
+   "ornek": "docker logs juice",
+   "cilt": 9
+  },
+  {
+   "ad": "docker compose up -d",
+   "kategori": "Docker",
+   "aciklama": "Compose dosyasındaki ortamı arka planda başlatır.",
+   "ornek": "docker compose -f lab.yml up -d",
+   "cilt": 9
+  },
+  {
+   "ad": "docker compose down",
+   "kategori": "Docker",
+   "aciklama": "Compose ortamını kapatır.",
+   "ornek": "docker compose -f lab.yml down",
+   "cilt": 9
+  },
+  {
+   "ad": "usermod -aG docker",
+   "kategori": "Docker",
+   "aciklama": "Kullanıcıyı docker grubuna ekler.",
+   "ornek": "sudo usermod -aG docker $USER",
+   "cilt": 9
+  },
+  {
+   "ad": "VirtualBox snapshot",
+   "kategori": "Docker",
+   "aciklama": "Sanal makinenin geri dönülebilir kaydını alır.",
+   "ornek": "VBoxManage snapshot lab take temiz",
+   "cilt": 9
+  }
+ ]
+}
