@@ -57,3 +57,8 @@ WORKDIR /home/kali
 
 # Oyunu doğrudan başlat; argümansız çağrı ana menüye düşer.
 ENTRYPOINT ["python3", "/opt/hackeryolu/hackeryolu.py"]
+
+# ghcr paketini GitHub deposuna bağlar (org.opencontainers.image.source). En sonda: önbellek korunur.
+LABEL org.opencontainers.image.source="https://github.com/GokhanYmn/Ethic-Hacking-Game" \
+      org.opencontainers.image.title="Hacker Yolu" \
+      org.opencontainers.image.description="Etik Hacker Yolu kitabinin oyunlastirilmis terminal surumu"
