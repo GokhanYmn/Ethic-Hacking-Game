@@ -1,0 +1,13 @@
+# Docker imajına girmeyecekler (imajı küçük ve temiz tutar)
+.git
+.gitignore
+.gitattributes
+dist/
+*.tar.gz
+**/__pycache__/
+**/*.pyc
+araclar/kaynak/
+baslaticilar/
+docs/
+*.md
+!README.md

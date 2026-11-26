@@ -5,37 +5,57 @@ brifingi okursun, yeni komutları adım adım kendi elinle yazarsın, sonra ger�
 terminalde vakayı çözersin. Takıldığında ipucu alırsın, bitirdiğinde aynı beceriyi başka
 bir şirkette, başka bir hikâyeyle tekrar oynayabilirsin.
 
+## Nasıl kurarım? İki yol var
+
+- **Docker ile (Windows, Mac, Linux — her yerde birebir aynı):** Oyun özünde bir Linux
+  programı (gerçek `bash` + GNU araçları + Unix izinleri). Windows/Mac'te doğrudan sadık
+  çalışmaz. Docker, oyunu kendi minik Linux'uyla paketler; host ne olursa olsun deneyim her
+  yerde aynı olur. **Kişisel Windows/Mac için önerilen yol budur.** Bkz. _Kurulum — Docker ile_.
+- **Native (Linux / Raspberry Pi):** Kali/Pi gibi gerçek bir Linux'tasın. En hafif ve en hızlı
+  yol; Docker gerekmez. Bkz. _Kurulum — Raspberry Pi / Kali (native)_.
+
 ## Gereksinimler
 
-- Kali Linux (Raspberry Pi dahil) ya da herhangi bir Linux
-- Python 3.10 veya üstü ve bash (Kali'de ikisi de hazır gelir)
-- İnternet **gerekmez**; ek paket kurulmaz.
+- **Docker yolu:** Docker Desktop (Windows/Mac) ya da `docker` (Linux). Başka bir şey gerekmez;
+  Python, bash ve tüm araçlar imajın içinde gelir.
+- **Native yol:** Kali Linux (Raspberry Pi dahil) ya da herhangi bir Linux; Python 3.10+ ve bash
+  (Kali'de ikisi de hazır gelir). İnternet gerekmez; ek paket kurulmaz.
 
-## Kurulum — GitHub'dan (Raspberry Pi için önerilen)
+## Kurulum — Docker ile (Windows / Mac / Linux)
 
-Depo **özeldir (private)**, bu yüzden Pi'nin bir kez GitHub'a kimlik tanıtması gerekir.
-En kolay yol, Pi'de `gh` ile giriş yapmak:
+Önce **Docker**: Windows ve Mac'te [Docker Desktop](https://www.docker.com/products/docker-desktop)
+kurup bir kez başlat. Linux'ta `sudo apt install docker.io`.
+
+Sonra işletim sistemine göre `baslaticilar/` klasöründeki başlatıcıyı **çift tıkla**:
+
+| İşletim sistemi | Dosya |
+|---|---|
+| Windows | `baslaticilar\hackeryolu.bat` |
+| macOS | `baslaticilar/hackeryolu.command` (ilk sefer: `chmod +x hackeryolu.command`) |
+| Linux | `baslaticilar/hackeryolu.sh` (ilk sefer: `chmod +x hackeryolu.sh`) |
+
+Başlatıcı, imajı ilk sefer otomatik indirir ve oyunu açar. **İlerlemen kalıcıdır:** oyun,
+verini `hackeryolu_data` adlı bir Docker volume'ünde tutar; konteyner kapansa da kaybolmaz.
+
+> Elle çalıştırmak istersen:
+> ```
+> docker run -it --rm -v hackeryolu_data:/home/kali ghcr.io/gokhanymn/hackeryolu:latest
+> ```
+> İnternetsiz (USB) kurulum için `docker load -i hackeryolu-imaj-<sürüm>.tar` sonra aynı komutu
+> `HY_IMAJ=hackeryolu:<sürüm>` ile çalıştır.
+
+## Kurulum — Raspberry Pi / Kali (native)
+
+Depo herkese açık (public); Pi'de hiçbir kimlik gerekmez:
 
 ```
-sudo apt install gh git        # yoksa
-gh auth login                  # tarayıcı/kod ile bir kez giriş
-gh repo clone GokhanYmn/Ethic-Hacking-Game
+sudo apt install git           # yoksa
+git clone https://github.com/GokhanYmn/Ethic-Hacking-Game.git
 cd Ethic-Hacking-Game
 ./install.sh
 ```
 
-`gh` kurmak istemezsen, GitHub'dan bir **token** (Settings → Developer settings → Personal
-access tokens → bu depoya "Contents: read") alıp:
-
-```
-git clone https://<TOKEN>@github.com/GokhanYmn/Ethic-Hacking-Game.git
-cd Ethic-Hacking-Game && ./install.sh
-```
-
 Güncelleme geldiğinde: depo klasöründe `git pull && ./install.sh` — ilerlemen korunur.
-
-> Depoyu herkese açık (public) yaparsan Pi'de hiçbir kimlik gerekmez, `git clone` tek başına
-> çalışır. İstersen bunu senin için açabilirim.
 
 ## Kurulum — USB ile (internetsiz)
 
@@ -105,8 +125,11 @@ kurulumun sağlam olduğunu doğrular. İlerlemene dokunmaz.
 
 ## Docker (Cilt 9 için, isteğe bağlı)
 
-Oyunun kendisi Docker istemez. Cilt 9'da kendi laboratuvarını Docker ile kurmayı öğrenirsin;
-Docker yoksa oyun yazdığın dosyaları yine de kontrol eder. Kurmak istersen:
+> Not: Bu bölüm, oyunu Docker'da **çalıştırmak**la (yukarıdaki _Kurulum — Docker ile_) karıştırılmasın.
+> Burada anlatılan, Cilt 9'da **kendi laboratuvarını** kurman için Docker'dır — ayrı bir konu.
+
+Native kurulumda oyunun kendisi Docker istemez. Cilt 9'da kendi laboratuvarını Docker ile kurmayı
+öğrenirsin; Docker yoksa oyun yazdığın dosyaları yine de kontrol eder. Kurmak istersen:
 
 ```
 sudo apt install docker.io docker-compose
