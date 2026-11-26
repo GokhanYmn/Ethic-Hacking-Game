@@ -24,7 +24,8 @@ from hy.motor import zorluk
 from hy.motor.kabuk import gorev_kabugu, lab_kur
 from hy.motor.kayit import Kayit
 from hy.motor.rutbe import rutbe
-from hy.olay_masasi import izin_denetimi, olay_bulut, olay_zaman, ssh_kaba_kuvvet, web_logu
+from hy.olay_masasi import (izin_denetimi, olay_adli, olay_api, olay_bulut, olay_dns, olay_fidye,
+                            olay_firewall, olay_ictehdit, olay_zaman, ssh_kaba_kuvvet, web_logu)
 
 # ------------------------------------------------------------------ sahne / ASCII
 
@@ -80,14 +81,61 @@ ISLER = {
                    "port, sızmış anahtar var mı?",
         "taban": 170,
     },
+    "firewall": {
+        "sv": olay_firewall.SEVIYE,
+        "konu": "Güvenlik duvarı kurallarını denetle",
+        "cerceve": "{kurulus} ({sektor}) güvenlik duvarı kurallarını denetlemeni istiyor: internete "
+                   "açık hassas port, aşırı geniş kural, gölgelenmiş kural, yanlış varsayılan politika?",
+        "taban": 160,
+    },
+    "dns": {
+        "sv": olay_dns.SEVIYE,
+        "konu": "DNS üzerinden sızıntı şüphesi",
+        "cerceve": "{kurulus} ({sektor}) DNS loglarında tuhaflık var. Biri DNS'i tünel gibi kullanıyor "
+                   "olabilir: kim, hangi alana, ne kadar?",
+        "taban": 160,
+    },
+    "api": {
+        "sv": olay_api.SEVIYE,
+        "konu": "API kötüye kullanımı şüphesi",
+        "cerceve": "{kurulus} ({sektor}) API loglarında saldırı izi arıyor: parola doldurma, ardışık "
+                   "ID gezme (IDOR), aşırı istek. Saldırgan IP'leri çıkar.",
+        "taban": 170,
+    },
+    "ictehdit": {
+        "sv": olay_ictehdit.SEVIYE,
+        "konu": "İç tehdit şüphesi",
+        "cerceve": "{kurulus} ({sektor}) bir çalışanın veri sızdırdığından şüpheleniyor. Erişim, VPN "
+                   "ve transfer loglarından şüpheliyi ve kanıtı bul.",
+        "taban": 180,
+    },
+    "adli": {
+        "sv": olay_adli.SEVIYE,
+        "konu": "Ele geçmiş sunucuda adli inceleme",
+        "cerceve": "{kurulus} ({sektor}) bir sunucunun ele geçtiğinden şüpheli. ps, ss ve zamanlama "
+                   "anlık görüntülerini incele: şüpheli süreç, C2 bağlantısı, kalıcılık nerede?",
+        "taban": 180,
+    },
+    "fidye": {
+        "sv": olay_fidye.SEVIYE,
+        "konu": "Fidye saldırısı sonrası müdahale",
+        "cerceve": "{kurulus} ({sektor}) fidye yazılımına çarpıldı. Olay loglarını, yedek durumunu ve "
+                   "fidye notunu incele: ilk bulaşma nereden, kaç sunucu vuruldu, sağlam yedek var mı?",
+        "taban": 200,
+    },
 }
 
 # İtibar kademeleri: (eşik, ad, uygun aileler, uygun zorluklar, ödül çarpanı)
 KADEMELER = [
-    (0,   "Çaylak Freelancer", ["web", "ssh"],                           ["kolay", "normal"],        1.00),
-    (25,  "Tanınan İsim",      ["web", "ssh", "izin", "zaman"],          ["kolay", "normal", "zor"], 1.15),
-    (70,  "Aranan Uzman",      ["web", "ssh", "izin", "zaman", "bulut"], ["normal", "zor"],          1.30),
-    (150, "Kurumsal Danışman", ["web", "ssh", "izin", "zaman", "bulut"], ["normal", "zor"],          1.50),
+    (0,   "Çaylak Freelancer", ["web", "ssh", "firewall"],
+          ["kolay", "normal"], 1.00),
+    (25,  "Tanınan İsim",      ["web", "ssh", "firewall", "izin", "zaman", "dns"],
+          ["kolay", "normal", "zor"], 1.15),
+    (70,  "Aranan Uzman",      ["web", "ssh", "firewall", "izin", "zaman", "dns", "api", "bulut", "ictehdit"],
+          ["normal", "zor"], 1.30),
+    (150, "Kurumsal Danışman", ["web", "ssh", "firewall", "izin", "zaman", "dns", "api", "bulut",
+                                "ictehdit", "adli", "fidye"],
+          ["normal", "zor"], 1.50),
 ]
 
 # Ekipman: parayla alınır, kalıcı fayda verir (etkiler bu katmanda uygulanır).
