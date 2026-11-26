@@ -1096,6 +1096,10 @@ def main(argv=None) -> int:
         print("Hacker Yolu Linux/Kali için tasarlandı. Kali makinende çalıştır.")
         return 1
     if not argv:
+        if Kayit().veri["ayarlar"].get("hayat_ana"):
+            from hy.motor import yasam
+            yasam.yasam_modu(Kayit())
+            return 0
         return ana_menu()
     if argv[0] in ("-v", "--surum", "surum"):
         print(f"Hacker Yolu {SURUM}")

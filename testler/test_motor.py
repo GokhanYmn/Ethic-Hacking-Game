@@ -268,7 +268,7 @@ class KabukAkisiTestleri(unittest.TestCase):
 
 
 class YasamTestleri(unittest.TestCase):
-    """Hayat Modu (prototip) — etkileşimsiz mantık: durum, iş üretimi, ödül, determinizm."""
+    """Hayat Modu (Aşama 1-2) — etkileşimsiz mantık: durum, kutu, kademe, ekipman, ödül."""
 
     def setUp(self):
         from hy.motor import yasam
@@ -276,39 +276,54 @@ class YasamTestleri(unittest.TestCase):
 
     def test_durum_baslatma(self):
         with tempfile.TemporaryDirectory() as td:
-            kayit = Kayit(Path(td) / "k.json")
-            dur = self.y._durumu(kayit)
-            for anahtar in ("gun", "para", "itibar", "tamamlanan_is"):
+            dur = self.y._durumu(Kayit(Path(td) / "k.json"))
+            for anahtar in ("gun", "para", "itibar", "ekipman", "kutu", "sonraki_no"):
                 self.assertIn(anahtar, dur)
             self.assertEqual(dur["gun"], 1)
             self.assertEqual(dur["para"], 0)
 
-    def test_kutu_farkli_ailelerden(self):
-        kutu = self.y._kutu_uret(3)
-        self.assertEqual(len(kutu), 3)
-        self.assertEqual(len({j["sv"].kimlik for j in kutu}), 3)   # hepsi farklı aile
-        for j in kutu:
-            self.assertIn(j["zorluk"], ("kolay", "normal", "zor"))
-            self.assertGreater(j["odul_max"], 0)
-            self.assertTrue(j["kurulus"])
-            self.assertEqual(j["durum"], "yeni")
+    def test_kutu_doldur_serilestirilebilir(self):
+        with tempfile.TemporaryDirectory() as td:
+            kayit = Kayit(Path(td) / "k.json")
+            self.y._kutu_doldur(kayit)
+            kutu = self.y._durumu(kayit)["kutu"]
+            self.assertGreaterEqual(len([j for j in kutu if j["durum"] == "yeni"]), 1)
+            for j in kutu:
+                for alan in ("no", "anahtar", "zorluk", "tohum", "kurulus", "durum"):
+                    self.assertIn(alan, j)
+                self.assertIn(j["anahtar"], self.y.ISLER)
+            json.dumps(kutu)   # kalıcılık için JSON güvenli olmalı
 
-    def test_odul_formulu(self):
-        sab = self.y.ISLER[0]
-        job = self.y._is_uret(sab, "zor", 1)
-        kat = self.y.zorluk.ZORLUKLAR["zor"]["xp"]
-        self.assertEqual(job["odul_max"], round(sab["taban"] * len(sab["sv"].gorevler) * kat))
-        kolay = self.y._is_uret(sab, "kolay", 1)
-        self.assertLess(kolay["odul_max"], job["odul_max"])       # zor daha çok öder
+    def test_kademe_itibarla_yukselir(self):
+        i0, k0 = self.y._kademe(0)
+        iN, kN = self.y._kademe(10 ** 6)
+        self.assertEqual(i0, 0)
+        self.assertEqual(iN, len(self.y.KADEMELER) - 1)
+        self.assertGreater(kN[4], k0[4])        # üst kademe ödül çarpanı daha yüksek
+
+    def test_ekipman_etki(self):
+        etki = self.y._ekipman_etki({"ekipman": ["pazarlikci", "menajer"]})
+        self.assertGreater(etki["pay"], 0)
+        self.assertGreater(etki["itibar"], 0)
+
+    def test_odul_zorluk_ve_kademeyle_artar(self):
+        with tempfile.TemporaryDirectory() as td:
+            dur = self.y._durumu(Kayit(Path(td) / "k.json"))
+            kolay = {"anahtar": "web", "zorluk": "kolay"}
+            zor = {"anahtar": "web", "zorluk": "zor"}
+            self.assertLess(self.y._odul_max(kolay, dur), self.y._odul_max(zor, dur))
+            dur["itibar"] = 10 ** 6                           # üst kademe → daha çok öder
+            self.assertGreater(self.y._odul_max(zor, dur),
+                               self.y._odul_max(zor, {"itibar": 0, "ekipman": []}))
 
     def test_tohum_deterministik(self):
-        sv = self.y.web_logu.SEVIYE
+        sv = self.y.ISLER["web"]["sv"]
         self.assertEqual(sv.senaryo(4242)["metin"]["musteri"],
                          sv.senaryo(4242)["metin"]["musteri"])
 
     def test_teaser_gercek_olay(self):
-        for sablon in self.y.ISLER:
-            self.assertTrue(self.y._teaser(sablon["sv"]))        # her ailede gerçek-hayat bağı var
+        for e in self.y.ISLER.values():
+            self.assertTrue(self.y._teaser(e["sv"]))            # her ailede gerçek-hayat bağı var
 
 
 if __name__ == "__main__":
