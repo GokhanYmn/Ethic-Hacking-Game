@@ -24,8 +24,10 @@ from hy.motor import zorluk
 from hy.motor.kabuk import gorev_kabugu, lab_kur
 from hy.motor.kayit import Kayit
 from hy.motor.rutbe import rutbe
-from hy.olay_masasi import (izin_denetimi, olay_adli, olay_api, olay_bulut, olay_dns, olay_fidye,
-                            olay_firewall, olay_ictehdit, olay_zaman, ssh_kaba_kuvvet, web_logu)
+from hy.olay_masasi import (izin_denetimi, olay_adli, olay_api, olay_bulut, olay_dns, olay_eposta,
+                            olay_fidye, olay_firewall, olay_ictehdit, olay_kurcalama, olay_siem,
+                            olay_sizinti, olay_webshell, olay_yanal, olay_zaman, ssh_kaba_kuvvet,
+                            web_logu)
 
 # ------------------------------------------------------------------ sahne / ASCII
 
@@ -123,18 +125,63 @@ ISLER = {
                    "fidye notunu incele: ilk bulaşma nereden, kaç sunucu vuruldu, sağlam yedek var mı?",
         "taban": 200,
     },
+    "siem": {
+        "sv": olay_siem.SEVIYE,
+        "konu": "SIEM korelasyonu lazım",
+        "cerceve": "{kurulus} ({sektor}) üç ayrı log kaynağını birleştirip tek saldırı zincirini "
+                   "çıkarmanı istiyor: web, auth ve firewall'da ortak iz kim?",
+        "taban": 180,
+    },
+    "webshell": {
+        "sv": olay_webshell.SEVIYE,
+        "konu": "Web shell şüphesi",
+        "cerceve": "{kurulus} ({sektor}) web sunucusuna bir shell yüklenmiş olabilir. Dosya listesi "
+                   "ve erişim logundan bul: hangi dosya, kim yükledi, ne zaman?",
+        "taban": 170,
+    },
+    "yanal": {
+        "sv": olay_yanal.SEVIYE,
+        "konu": "Yanal hareket şüphesi",
+        "cerceve": "{kurulus} ({sektor}) iç ağında biri makineden makineye atlıyor. Birleşik auth "
+                   "logundan pivot zincirini çıkar: hangi hesap, nereden nereye?",
+        "taban": 190,
+    },
+    "sizinti": {
+        "sv": olay_sizinti.SEVIYE,
+        "konu": "Kod deposunda sır taraması",
+        "cerceve": "{kurulus} ({sektor}) kod/konfig dökümünde sızmış sır arıyor: AWS anahtarı, düz "
+                   "parola, token, özel anahtar — hangi dosyada, en kritiği ne?",
+        "taban": 170,
+    },
+    "eposta": {
+        "sv": olay_eposta.SEVIYE,
+        "konu": "Şüpheli e-posta başlık incelemesi",
+        "cerceve": "{kurulus} ({sektor}) tek bir şüpheli e-postanın başlıklarını çözümlemeni istiyor: "
+                   "gerçek köken IP, SPF/DKIM/DMARC, Reply-To tuzağı — sahte mi?",
+        "taban": 160,
+    },
+    "kurcalama": {
+        "sv": olay_kurcalama.SEVIYE,
+        "konu": "Log kurcalama şüphesi",
+        "cerceve": "{kurulus} ({sektor}) birinin logları temizlediğinden şüpheli. Sıra numaralarındaki "
+                   "boşluğu bul: ne silindi, ne zaman, kimin izinin üstü örtüldü?",
+        "taban": 180,
+    },
 }
 
 # İtibar kademeleri: (eşik, ad, uygun aileler, uygun zorluklar, ödül çarpanı)
 KADEMELER = [
-    (0,   "Çaylak Freelancer", ["web", "ssh", "firewall"],
+    (0,   "Çaylak Freelancer", ["web", "ssh", "firewall", "eposta"],
           ["kolay", "normal"], 1.00),
-    (25,  "Tanınan İsim",      ["web", "ssh", "firewall", "izin", "zaman", "dns"],
+    (25,  "Tanınan İsim",      ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
+                                "webshell", "sizinti"],
           ["kolay", "normal", "zor"], 1.15),
-    (70,  "Aranan Uzman",      ["web", "ssh", "firewall", "izin", "zaman", "dns", "api", "bulut", "ictehdit"],
+    (70,  "Aranan Uzman",      ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
+                                "webshell", "sizinti", "api", "bulut", "ictehdit", "siem", "kurcalama"],
           ["normal", "zor"], 1.30),
-    (150, "Kurumsal Danışman", ["web", "ssh", "firewall", "izin", "zaman", "dns", "api", "bulut",
-                                "ictehdit", "adli", "fidye"],
+    (150, "Kurumsal Danışman", ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
+                                "webshell", "sizinti", "api", "bulut", "ictehdit", "siem", "kurcalama",
+                                "adli", "fidye", "yanal"],
           ["normal", "zor"], 1.50),
 ]
 
