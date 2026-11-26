@@ -24,7 +24,7 @@ from hy.motor import zorluk
 from hy.motor.kabuk import gorev_kabugu, lab_kur
 from hy.motor.kayit import Kayit
 from hy.motor.rutbe import rutbe
-from hy.olay_masasi import izin_denetimi, ssh_kaba_kuvvet, web_logu
+from hy.olay_masasi import izin_denetimi, olay_bulut, olay_zaman, ssh_kaba_kuvvet, web_logu
 
 # ------------------------------------------------------------------ sahne / ASCII
 
@@ -64,14 +64,30 @@ ISLER = {
                    "SUID'leri denetle: açık kapı, arka kapı hesap, şüpheli SUID var mı?",
         "taban": 150,
     },
+    "zaman": {
+        "sv": olay_zaman.SEVIYE,
+        "konu": "Bir ihlalin zaman çizelgesini çıkar",
+        "cerceve": "{kurulus} ({sektor}) ihlal edildi ama kimse sıralamayı bilmiyor. Loglardan "
+                   "zaman çizelgesini kur: nereden girdiler, hangi hesap düştü, ne sızdı, ne kadar "
+                   "fark edilmediler?",
+        "taban": 160,
+    },
+    "bulut": {
+        "sv": olay_bulut.SEVIYE,
+        "konu": "Bulut yapılandırmasını denetle",
+        "cerceve": "{kurulus} ({sektor}) buluta taşındı ama kimse ayarlara bakmadı. Depolama, IAM "
+                   "ve güvenlik gruplarını denetle: herkese açık kaynak, aşırı yetki, internete açık "
+                   "port, sızmış anahtar var mı?",
+        "taban": 170,
+    },
 }
 
 # İtibar kademeleri: (eşik, ad, uygun aileler, uygun zorluklar, ödül çarpanı)
 KADEMELER = [
-    (0,   "Çaylak Freelancer", ["web", "ssh"],        ["kolay", "normal"],        1.00),
-    (25,  "Tanınan İsim",      ["web", "ssh", "izin"], ["kolay", "normal", "zor"], 1.15),
-    (70,  "Aranan Uzman",      ["web", "ssh", "izin"], ["normal", "zor"],          1.30),
-    (150, "Kurumsal Danışman", ["web", "ssh", "izin"], ["normal", "zor"],          1.50),
+    (0,   "Çaylak Freelancer", ["web", "ssh"],                           ["kolay", "normal"],        1.00),
+    (25,  "Tanınan İsim",      ["web", "ssh", "izin", "zaman"],          ["kolay", "normal", "zor"], 1.15),
+    (70,  "Aranan Uzman",      ["web", "ssh", "izin", "zaman", "bulut"], ["normal", "zor"],          1.30),
+    (150, "Kurumsal Danışman", ["web", "ssh", "izin", "zaman", "bulut"], ["normal", "zor"],          1.50),
 ]
 
 # Ekipman: parayla alınır, kalıcı fayda verir (etkiler bu katmanda uygulanır).
@@ -83,6 +99,14 @@ EKIPMAN = {
 }
 
 KUTU_TABAN = 3  # gelen kutusunda tutulacak aktif iş sayısı (+ Geniş Masa)
+
+# Ev lab kademeleri: (fiyat, ad, günlük_pasif_gelir, açıklama). Kademe 0 = lab yok.
+LAB_KADEMELERI = [
+    (0,    "—",                   0,   "Lab yok."),
+    (1500, "Köşe Lab",            80,  "Eski bir dizüstü + bir anahtar. Küçük ama seninki."),
+    (4000, "Donanımlı Lab",       200, "Raspberry Pi kümesi + switch. Artık ciddi iş çıkar."),
+    (9000, "Tam Teşekküllü Lab",  450, "Raf, sanallaştırma, ayrı ağ. Evinde bir SOC."),
+]
 
 HIKAYELER = [
     "Deniz: *\"İlk işini kapattın. Küçük ama temiz — bu çevrede isim böyle yayılır.\"*",
@@ -106,6 +130,7 @@ def _durumu(kayit: Kayit) -> dict:
     dur.setdefault("sonraki_no", 1)
     dur.setdefault("gorulen_kademe", 0)
     dur.setdefault("tanisildi", False)
+    dur.setdefault("lab", 0)        # ev lab kademesi (0 = yok)
     return dur
 
 
@@ -291,6 +316,69 @@ def _dukkan(kayit: Kayit) -> None:
             ui.bekle()
 
 
+def _lab_gelir(dur: dict) -> int:
+    return LAB_KADEMELERI[dur.get("lab", 0)][2]
+
+
+def _pratik(kayit: Kayit) -> None:
+    """Ev lab'ında ücretsiz antrenman: rastgele bir aile; para/itibar yok, sadece XP."""
+    sv = _sv(random.choice(list(ISLER)))
+    tohum = random.SystemRandom().randrange(1, 10 ** 9)
+    _vaka_kur(kayit, sv, tohum)
+    xp_once = kayit.veri["xp"]
+    lab = lab_kur(sv, sv.senaryo(tohum))
+    print(ui.bilgi(f"Antrenman: {sv.baslik}. Para yok, sadece pratik ve XP. "
+                   f"Çıkmak için kabukta {ui.r('cik', 'camgobegi')} yaz."))
+    ui.bekle("Hazırsan Enter")
+    gorev_kabugu(sv, lab)
+    kazanc = Kayit().veri["xp"] - xp_once
+    print(ui.basari(f"Antrenman bitti. +{kazanc} XP.") if kazanc else ui.r("  Antrenman bitti.", "gri"))
+    ui.bekle()
+
+
+def _lab_ekrani(kayit: Kayit) -> None:
+    while True:
+        kayit = Kayit()
+        dur = _durumu(kayit)
+        kademe = dur["lab"]
+        ui.temizle()
+        print(ui.baslik_cubugu("Ev Lab", "camgobegi"))
+        if kademe:
+            print(f"  Mevcut: {ui.r(LAB_KADEMELERI[kademe][1], 'kalin')}  ·  "
+                  f"pasif gelir {ui.r('₺' + str(_lab_gelir(dur)) + '/gün', 'yesil')}")
+        else:
+            print(ui.r("  Henüz lab'ın yok. Kendi poligonun: hem pasif gelir hem bedava antrenman.", "gri"))
+        print(f"  Kasanda: {ui.r('₺' + str(dur['para']), 'yesil', 'kalin')}\n")
+        secenekler = []
+        if kademe < len(LAB_KADEMELERI) - 1:
+            fiyat, ad, gelir, acik = LAB_KADEMELERI[kademe + 1]
+            etk = (ui.r("₺" + str(fiyat), "sari", "kalin") if dur["para"] >= fiyat
+                   else ui.r(f"₺{fiyat} (yetersiz)", "gri"))
+            print(f"  [{ui.r('y', 'camgobegi', 'kalin')}] {'Lab kur' if not kademe else 'Yükselt'}: "
+                  f"{ad} — {acik}  (+₺{gelir}/gün)  {etk}")
+            secenekler.append("y")
+        if kademe:
+            print(f"  [{ui.r('p', 'camgobegi', 'kalin')}] Antrenman yap (bedava, XP kazan)")
+            secenekler.append("p")
+        print(f"\n  [{ui.r('q', 'camgobegi')}] Geri")
+        secim = ui.sor("\n  Ne yapalım? ").lower().strip()
+        if secim == "q":
+            return
+        if secim == "y" and "y" in secenekler:
+            fiyat, ad, gelir, _ = LAB_KADEMELERI[kademe + 1]
+            if dur["para"] < fiyat:
+                print(ui.hata("Paran yetmiyor. Birkaç iş daha kapat."))
+                ui.bekle()
+            else:
+                dur["para"] -= fiyat
+                dur["lab"] = kademe + 1
+                kayit.kaydet()
+                print(ui.basari(f"{ad} kuruldu! Her gün +₺{gelir} ve bedava antrenman."))
+                ui.bekle()
+        elif secim == "p" and "p" in secenekler:
+            _pratik(kayit)
+
+
 def _is_oyna(kayit: Kayit, job: dict, oyuncu_zorluk: str) -> dict:
     """İşi gerçek terminalde oynatır; zorluğu geçici uygular, sonra geri yükler. Maaş döndürür."""
     sv = _sv(job["anahtar"])
@@ -422,6 +510,7 @@ daha büyük işler açılır.
                   f"{ui.r('₺' + str(_odul_max(j, dur)), 'yesil')}{etiket}")
         ana = kayit.veri["ayarlar"].get("hayat_ana")
         print(f"\n  [{ui.r('u', 'camgobegi')}] Uyu (yeni gün)   [{ui.r('s', 'camgobegi')}] Dükkân   "
+              f"[{ui.r('l', 'camgobegi')}] Ev Lab   "
               f"[{ui.r('a', 'camgobegi')}] {'Normal menüye dön' if ana else 'Ana ekran yap'}   "
               f"[{ui.r('q', 'camgobegi')}] Çıkış")
         secim = ui.sor("\n  Ne yapalım? ").lower().strip()
@@ -432,18 +521,21 @@ daha büyük işler açılır.
             return
         if secim == "u":
             dur["gun"] += 1
-            kazanc = _ekipman_etki(dur)["gunluk"]
+            kazanc = _ekipman_etki(dur)["gunluk"] + _lab_gelir(dur)
             if kazanc:
                 dur["para"] += kazanc
             kayit.kaydet()
             _kutu_doldur(kayit)
             kayit.kaydet()
             if kazanc:
-                print(ui.bilgi(f"Yeni gün. Kahve makinesi: +₺{kazanc}."))
+                print(ui.bilgi(f"Yeni gün. Pasif gelir: +₺{kazanc}."))
                 time.sleep(0.8)
             continue
         if secim == "s":
             _dukkan(kayit)
+            continue
+        if secim == "l":
+            _lab_ekrani(kayit)
             continue
         if secim == "a":
             yeni = not kayit.veri["ayarlar"].get("hayat_ana")

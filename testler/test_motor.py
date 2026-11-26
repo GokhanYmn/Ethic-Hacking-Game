@@ -316,6 +316,12 @@ class YasamTestleri(unittest.TestCase):
             self.assertGreater(self.y._odul_max(zor, dur),
                                self.y._odul_max(zor, {"itibar": 0, "ekipman": []}))
 
+    def test_lab_gelir_kademeyle_artar(self):
+        self.assertEqual(self.y._lab_gelir({"lab": 0}), 0)
+        self.assertGreater(self.y._lab_gelir({"lab": 1}), 0)
+        son = len(self.y.LAB_KADEMELERI) - 1
+        self.assertGreater(self.y._lab_gelir({"lab": son}), self.y._lab_gelir({"lab": 1}))
+
     def test_tohum_deterministik(self):
         sv = self.y.ISLER["web"]["sv"]
         self.assertEqual(sv.senaryo(4242)["metin"]["musteri"],
