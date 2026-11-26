@@ -108,12 +108,28 @@ LAB_KADEMELERI = [
     (9000, "Tam Teşekküllü Lab",  450, "Raf, sanallaştırma, ayrı ağ. Evinde bir SOC."),
 ]
 
-HIKAYELER = [
-    "Deniz: *\"İlk işini kapattın. Küçük ama temiz — bu çevrede isim böyle yayılır.\"*",
-    "Deniz: *\"Biri seni sormuş bugün. İyi anlamda... sanırım.\"* Adın dolaşmaya başladı.",
-    "Deniz: *\"Rakip bir isim — 'Kestane' — aynı müşteriye talip olmuş. Hızlı olmakta fayda var.\"*",
-    "Masanda bir not: *son vakalardaki saldırgan IP'leri garip biçimde aynı bloklardan çıkıyor.* "
-    "Tesadüf mü, yoksa bir örüntü mü? Deniz omuz silkti ama gözleri gülmüyordu.",
+STORY_BONUS = 1.5  # hikâye (★) işleri daha çok öder
+
+# Ana hikâye omurgası — "Gölge Ağ": ilerledikçe (tamamlanan iş + itibar) sırayla açılır.
+# (min_is, min_itibar, kim, metin, ozel_is_ekle)
+HIKAYE = [
+    (1, 0,  "Deniz", "İlk işini kapattın. Küçük ama temiz — bu çevrede isim böyle yayılır.", False),
+    (2, 0,  "Not",   "Masanda bir not: son vakalardaki saldırgan IP'leri garip biçimde aynı bloklardan "
+                     "çıkıyor. Tesadüf mü? Deniz omuz silkti ama gözleri gülmüyordu.", False),
+    (3, 20, "K.",    "Tanımadığın bir numara: *\"Adını duydum. İyi para, az soru. İlgilenirsen bir iş "
+                     "bırakıyorum gelen kutuna. — K.\"*", True),
+    (5, 40, "Selin", "Selin dosyaları yan yana koyuyor: *\"Bak — aynı araçlar, aynı saatler, aynı bloklar. "
+                     "Bunlar ayrı ayrı olaylar değil. Biri koordine ediyor.\"*", False),
+    (6, 40, "Kestane", "Rakip bir isim, 'Kestane', mesaj atıyor: *\"O K. denen adamın işlerine bulaşma. "
+                       "Benden söylemesi.\"* Nereden biliyor senin K.'yi?", False),
+    (7, 70, "Eren",  "Gazeteci Eren Aydın ulaşıyor: *\"'Gölge Ağ' diye bir grubun peşindeyim; senin "
+                     "müşterilerine de dokunmuşlar. Konuşalım mı?\"* (K. bir iş daha bıraktı.)", True),
+    (9, 90, "Deniz", "Deniz sesini alçaltıyor: *\"K.'nin kim olduğunu bilmiyorum ama verdiği işler hep "
+                     "Gölge Ağ'ın vuracağı yerler. Ya seni avlıyorlar ya da deniyorlar.\"*", False),
+    (12, 120, "Sen", "Parçalar yerine oturuyor: Gölge Ağ dağınık değil — tek merkezden, senin çözdüğün "
+                     "vakaların arasından geçen bir kampanya. Ve sıradaki hedef tanıdık çıkıyor.", True),
+    (14, 150, "Deniz", "Deniz başını sallıyor: *\"İzini sürdüğün şeyin içindesin artık. Küçük bir "
+                       "freelancer değilsin — bu dünyanın bir parçasısın.\"* (Devamı yakında…)", False),
 ]
 
 
@@ -131,6 +147,7 @@ def _durumu(kayit: Kayit) -> dict:
     dur.setdefault("gorulen_kademe", 0)
     dur.setdefault("tanisildi", False)
     dur.setdefault("lab", 0)        # ev lab kademesi (0 = yok)
+    dur.setdefault("hikaye_adim", 0)  # ana hikâye omurgasında kaçıncı an açıldı
     return dur
 
 
@@ -161,6 +178,8 @@ def _odul_max(job: dict, dur: dict) -> int:
     _, kad = _kademe(dur["itibar"])
     gear = _ekipman_etki(dur)
     kat = zorluk.ZORLUKLAR[job["zorluk"]]["xp"] * kad[4] * (1 + gear["pay"])
+    if job.get("hikaye"):
+        kat *= STORY_BONUS
     return round(sab["taban"] * len(sab["sv"].gorevler) * kat)
 
 
@@ -179,16 +198,20 @@ def _zorluk_rozet(z: str) -> str:
     return ui.r(f"{d['simge']} {d['ad']}", renk, "kalin")
 
 
-def _is_uret(anahtar: str, zorluk_key: str, no: int) -> dict:
+def _is_uret(anahtar: str, zorluk_key: str, no: int, hikaye: bool = False, patron: str | None = None) -> dict:
     """Serileştirilebilir bir iş teklifi (kutuda saklanır). Tohum sabitlenir: kuruluş/hikâye kalıcı."""
     sv = _sv(anahtar)
     tohum = random.SystemRandom().randrange(1, 10 ** 9)
     metin = sv.senaryo(tohum).get("metin", {})
-    return {
+    job = {
         "no": no, "anahtar": anahtar, "zorluk": zorluk_key, "tohum": tohum,
         "kurulus": metin.get("musteri", "bir müşteri"), "sektor": metin.get("sektor", ""),
         "durum": "yeni",
     }
+    if hikaye:
+        job["hikaye"] = True
+        job["patron"] = patron or "K."
+    return job
 
 
 def _kutu_doldur(kayit: Kayit) -> dict:
@@ -259,11 +282,17 @@ def _eposta_goster(job: dict, dur: dict) -> None:
     sab = ISLER[job["anahtar"]]
     teaser = _teaser(sv)
     govde = sab["cerceve"].format(kurulus=ui.r(job["kurulus"], "kalin"), sektor=job["sektor"])
+    hikaye = job.get("hikaye")
+    kimden = job["patron"] if hikaye else "Deniz Kara  (fikser)"
     satirlar = [
-        "**Kimden:** Deniz Kara  (fikser)",
+        f"**Kimden:** {kimden}",
         f"**Konu:** {sab['konu']}",
         "",
         govde,
+    ]
+    if hikaye:
+        satirlar += ["", ui.r("(Bu iş hikâyenin bir parçası — bonus ödeme.)", "sari")]
+    satirlar += [
         "",
         f"Zorluk: {_zorluk_rozet(job['zorluk'])}   ·   Ödül: "
         f"{ui.r('₺' + str(_odul_max(job, dur)), 'yesil')} (tam çözümde) + itibar + XP",
@@ -273,7 +302,8 @@ def _eposta_goster(job: dict, dur: dict) -> None:
     ui.temizle()
     for ln in DK.splitlines():
         print("  " + ui.r(ln, "camgobegi"))
-    print(ui.kutu("GELEN KUTUSU", "\n".join(satirlar), "mavi"))
+    print(ui.kutu("★ ÖZEL İŞ" if hikaye else "GELEN KUTUSU", "\n".join(satirlar),
+                  "sari" if hikaye else "mavi"))
 
 
 def _dukkan(kayit: Kayit) -> None:
@@ -404,7 +434,8 @@ def _is_oyna(kayit: Kayit, job: dict, oyuncu_zorluk: str) -> dict:
     _, kad = _kademe(dur["itibar"])
     gear = _ekipman_etki(dur)
     z_xp = zorluk.ZORLUKLAR[job["zorluk"]]["xp"]
-    para = round(ISLER[job["anahtar"]]["taban"] * cozulen * z_xp * kad[4] * (1 + gear["pay"]))
+    bonus = STORY_BONUS if job.get("hikaye") else 1.0
+    para = round(ISLER[job["anahtar"]]["taban"] * cozulen * z_xp * kad[4] * (1 + gear["pay"]) * bonus)
     itibar = round(cozulen * z_xp) + (gear["itibar"] if cozulen else 0)
     xp_kazanc = kayit.veri["xp"] - xp_once
     rutbe_sonra = rutbe(kayit.veri["xp"])["ad"]
@@ -454,14 +485,32 @@ def _terfi_kontrol(kayit: Kayit) -> None:
         ui.bekle()
 
 
-def _hikaye_kipirti(kayit: Kayit) -> None:
+_HIKAYE_ETIKET = {"Not": "Masanda bir not", "Sen": "Fark ediyorsun", "K.": "Tanımadığın numara"}
+
+
+def _hikaye_ilerlet(kayit: Kayit) -> None:
+    """Koşulu gelen sıradaki hikâye anını bir kez gösterir; gerekirse özel (★) iş ekler."""
     dur = _durumu(kayit)
-    idx = min(dur["tamamlanan_is"], len(HIKAYELER)) - 1
-    if idx < 0:
-        idx = random.randrange(len(HIKAYELER))
+    adim = dur.get("hikaye_adim", 0)
+    if adim >= len(HIKAYE):
+        return
+    min_is, min_it, kim, metin, ozel = HIKAYE[adim]
+    if dur["tamamlanan_is"] < min_is or dur["itibar"] < min_it:
+        return
+    dur["hikaye_adim"] = adim + 1
+    if ozel:
+        _, kad = _kademe(dur["itibar"])
+        zorlar = [x for x in ("normal", "zor") if x in kad[3]] or list(kad[3])
+        job = _is_uret(random.choice(kad[2]), random.choice(zorlar), dur["sonraki_no"],
+                       hikaye=True, patron=kim)
+        dur["sonraki_no"] += 1
+        dur["kutu"].append(job)
+    kayit.kaydet()
     ui.temizle()
-    print(ui.baslik_cubugu("Gün biterken", "mor"))
-    print(ui.kutu("HABER", HIKAYELER[idx], "camgobegi"))
+    print(ui.baslik_cubugu("Hikâye · Gölge Ağ", "mor"))
+    print(ui.kutu(_HIKAYE_ETIKET.get(kim, kim), metin, "camgobegi"))
+    if ozel:
+        print(ui.bilgi("Gelen kutuna özel bir iş düştü (★ ÖZEL İŞ) — bonus ödeme."))
 
 
 # ------------------------------------------------------------------ ana döngü
@@ -505,7 +554,8 @@ daha büyük işler açılır.
             print(ui.r("  Gelen kutusu boş. Uyuyup yeni bir gün bekleyebilirsin.", "gri"))
         for j in aktif:
             etiket = ui.r(" (ertelendi)", "gri") if j["durum"] == "ertelendi" else ""
-            print(f"  [{ui.r(str(j['no']), 'camgobegi', 'kalin')}] {ISLER[j['anahtar']]['konu']} — "
+            yildiz = ui.r("★ ", "sari") if j.get("hikaye") else ""
+            print(f"  [{ui.r(str(j['no']), 'camgobegi', 'kalin')}] {yildiz}{ISLER[j['anahtar']]['konu']} — "
                   f"{ui.r(j['kurulus'], 'kalin')} · {_zorluk_rozet(j['zorluk'])} · "
                   f"{ui.r('₺' + str(_odul_max(j, dur)), 'yesil')}{etiket}")
         ana = kayit.veri["ayarlar"].get("hayat_ana")
@@ -574,5 +624,5 @@ daha büyük işler açılır.
             _terfi_kontrol(k)
             _kutu_doldur(k)
             k.kaydet()
-            _hikaye_kipirti(k)
+            _hikaye_ilerlet(k)
             ui.bekle()

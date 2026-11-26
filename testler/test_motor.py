@@ -316,6 +316,18 @@ class YasamTestleri(unittest.TestCase):
             self.assertGreater(self.y._odul_max(zor, dur),
                                self.y._odul_max(zor, {"itibar": 0, "ekipman": []}))
 
+    def test_hikaye_omurgasi(self):
+        self.assertGreaterEqual(len(self.y.HIKAYE), 5)
+        self.assertEqual(self.y.HIKAYE[0][0], 1)                 # ilk an 1 işte açılır
+        job = self.y._is_uret("web", "normal", 1, hikaye=True, patron="K.")
+        self.assertTrue(job["hikaye"])
+        self.assertEqual(job["patron"], "K.")
+        with tempfile.TemporaryDirectory() as td:
+            dur = self.y._durumu(Kayit(Path(td) / "k.json"))
+            normal = {"anahtar": "web", "zorluk": "normal"}
+            hik = {"anahtar": "web", "zorluk": "normal", "hikaye": True}
+            self.assertGreater(self.y._odul_max(hik, dur), self.y._odul_max(normal, dur))
+
     def test_lab_gelir_kademeyle_artar(self):
         self.assertEqual(self.y._lab_gelir({"lab": 0}), 0)
         self.assertGreater(self.y._lab_gelir({"lab": 1}), 0)
