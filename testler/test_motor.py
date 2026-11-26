@@ -110,9 +110,9 @@ class KayitVeRutbeTestleri(unittest.TestCase):
             self.assertFalse([p for p in Path(d).iterdir() if p.suffix == ".tmp"])
 
     def test_rutbe(self):
-        self.assertEqual(rutbe(0)["ad"], "Çaylak")
-        self.assertEqual(rutbe(999)["ad"], "Çaylak")
-        self.assertEqual(rutbe(1000)["ad"], "Terminal Kurdu")
+        self.assertEqual(rutbe(0)["ad"], "Sivil")
+        self.assertEqual(rutbe(999)["ad"], "Sivil")
+        self.assertEqual(rutbe(1000)["ad"], "Çırak")
         self.assertIsNone(rutbe(99999)["sonraki_ad"])
 
     def test_puan(self):

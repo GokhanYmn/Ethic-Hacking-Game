@@ -171,15 +171,15 @@ ISLER = {
 
 # İtibar kademeleri: (eşik, ad, uygun aileler, uygun zorluklar, ödül çarpanı)
 KADEMELER = [
-    (0,   "Çaylak Freelancer", ["web", "ssh", "firewall", "eposta"],
+    (0,   "Tanınmayan", ["web", "ssh", "firewall", "eposta"],
           ["kolay", "normal"], 1.00),
-    (25,  "Tanınan İsim",      ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
+    (25,  "Duyulan",      ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
                                 "webshell", "sizinti"],
           ["kolay", "normal", "zor"], 1.15),
-    (70,  "Aranan Uzman",      ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
+    (70,  "Aranan",      ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
                                 "webshell", "sizinti", "api", "bulut", "ictehdit", "siem", "kurcalama"],
           ["normal", "zor"], 1.30),
-    (150, "Kurumsal Danışman", ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
+    (150, "Efsane", ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
                                 "webshell", "sizinti", "api", "bulut", "ictehdit", "siem", "kurcalama",
                                 "adli", "fidye", "yanal"],
           ["normal", "zor"], 1.50),
@@ -205,7 +205,7 @@ LAB_KADEMELERI = [
 
 STORY_BONUS = 1.5  # hikâye (★) işleri daha çok öder
 
-# Ana hikâye omurgası — "Gölge Ağ": ilerledikçe (tamamlanan iş + itibar) sırayla açılır.
+# Ana hikâye omurgası — "Sıfırıncı Gün": ilerledikçe (tamamlanan iş + itibar) sırayla açılır.
 # (min_is, min_itibar, kim, metin, ozel_is_ekle)
 HIKAYE = [
     (1, 0,  "Deniz", "İlk işini kapattın. Küçük ama temiz — bu çevrede isim böyle yayılır.", False),
@@ -217,11 +217,11 @@ HIKAYE = [
                      "Bunlar ayrı ayrı olaylar değil. Biri koordine ediyor.\"*", False),
     (6, 40, "Kestane", "Rakip bir isim, 'Kestane', mesaj atıyor: *\"O K. denen adamın işlerine bulaşma. "
                        "Benden söylemesi.\"* Nereden biliyor senin K.'yi?", False),
-    (7, 70, "Eren",  "Gazeteci Eren Aydın ulaşıyor: *\"'Gölge Ağ' diye bir grubun peşindeyim; senin "
+    (7, 70, "Eren",  "Gazeteci Eren Aydın ulaşıyor: *\"'Sıfırıncı Gün' diye bir grubun peşindeyim; senin "
                      "müşterilerine de dokunmuşlar. Konuşalım mı?\"* (K. bir iş daha bıraktı.)", True),
     (9, 90, "Deniz", "Deniz sesini alçaltıyor: *\"K.'nin kim olduğunu bilmiyorum ama verdiği işler hep "
-                     "Gölge Ağ'ın vuracağı yerler. Ya seni avlıyorlar ya da deniyorlar.\"*", False),
-    (12, 120, "Sen", "Parçalar yerine oturuyor: Gölge Ağ dağınık değil — tek merkezden, senin çözdüğün "
+                     "Sıfırıncı Gün'ün vuracağı yerler. Ya seni avlıyorlar ya da deniyorlar.\"*", False),
+    (12, 120, "Sen", "Parçalar yerine oturuyor: Sıfırıncı Gün dağınık değil — tek merkezden, senin çözdüğün "
                      "vakaların arasından geçen bir kampanya. Ve sıradaki hedef tanıdık çıkıyor.", True),
     (14, 150, "Deniz", "Deniz başını sallıyor: *\"İzini sürdüğün şeyin içindesin artık. Küçük bir "
                        "freelancer değilsin — bu dünyanın bir parçasısın.\"* (Devamı yakında…)", False),
@@ -602,7 +602,7 @@ def _hikaye_ilerlet(kayit: Kayit) -> None:
         dur["kutu"].append(job)
     kayit.kaydet()
     ui.temizle()
-    print(ui.baslik_cubugu("Hikâye · Gölge Ağ", "mor"))
+    print(ui.baslik_cubugu("Hikâye · Sıfırıncı Gün", "mor"))
     print(ui.kutu(_HIKAYE_ETIKET.get(kim, kim), metin, "camgobegi"))
     if ozel:
         print(ui.bilgi("Gelen kutuna özel bir iş düştü (★ ÖZEL İŞ) — bonus ödeme."))

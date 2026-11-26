@@ -4,20 +4,20 @@ from __future__ import annotations
 # Eşikler, ilk oynanışta (biraz ipucuyla, ~%85 puan) kabaca bir cildin bitişine denk gelecek
 # şekilde ayarlandı: tam puan Cilt 1 ≈ 2.300, Cilt 3 ≈ 6.500, Cilt 10 ≈ 21.000, hepsi ≈ 35.000.
 RUTBELER = [
-    (0, "Çaylak"),
-    (1000, "Terminal Kurdu"),
-    (2000, "Paket Avcısı"),           # Cilt 1 sonu
-    (3700, "Betik Ustası"),           # Cilt 2 sonu
-    (5500, "Keşifçi"),                # Cilt 3 sonu
-    (7200, "Web Avcısı"),             # Cilt 4 sonu
-    (8800, "Sızma Uzmanı"),           # Cilt 5 sonu
-    (10400, "Mavi Takım Bekçisi"),    # Cilt 6 sonu
-    (12500, "Analist"),               # Cilt 7 sonu
-    (14000, "Pentester"),             # Cilt 8 sonu
-    (15700, "Lab Ustası"),            # Cilt 9 sonu
-    (17900, "Finans Güvenlik Uzmanı"),  # Cilt 10 sonu
-    (24000, "Kıdemli Pentester"),     # uzmanlık ciltlerinin ortası
-    (29500, "Baş Danışman"),          # Capstone
+    (0, "Sivil"),
+    (1000, "Çırak"),
+    (2000, "İz Sürücü"),              # Cilt 1 sonu
+    (3700, "Terminal Dervişi"),       # Cilt 2 sonu
+    (5500, "Kâşif"),                  # Cilt 3 sonu
+    (7200, "Ağ Gezgini"),             # Cilt 4 sonu
+    (8800, "Sırçözen"),               # Cilt 5 sonu
+    (10400, "Bekçi"),                 # Cilt 6 sonu
+    (12500, "Fısıltı"),               # Cilt 7 sonu
+    (14000, "Yankı"),                 # Cilt 8 sonu
+    (15700, "Gölge"),                 # Cilt 9 sonu
+    (17900, "Hayalet"),               # Cilt 10 sonu
+    (24000, "Kök"),                   # uzmanlık ciltlerinin ortası
+    (29500, "Pergezer"),              # Capstone (zirve)
 ]
 
 # İpucu kademesine göre görev puanından düşülen oran
