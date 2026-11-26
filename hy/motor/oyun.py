@@ -985,6 +985,7 @@ def ana_menu() -> int:
         print(f"  [{ui.r('6', 'camgobegi', 'kalin')}] Başvuru: sözlük, komutlar, notlarım")
         print(f"  [{ui.r('7', 'camgobegi', 'kalin')}] Rozetler ve istatistik")
         print(f"  [{ui.r('8', 'camgobegi', 'kalin')}] Nasıl oynanır?")
+        print(f"  [{ui.r('d', 'camgobegi', 'kalin')}] Hayat Modu (deney) — hikâyeli iş akışı")
         print(f"  [{ui.r('q', 'camgobegi', 'kalin')}] Çıkış")
         secim = ui.sor("\n  Seçimin: ").lower()
         if secim == "q":
@@ -1011,6 +1012,9 @@ def ana_menu() -> int:
             ui.temizle()
             print(ui.md(YARDIM))
             ui.bekle()
+        elif secim == "d":
+            from hy.motor import yasam
+            yasam.yasam_modu(kayit)
 
 
 def cmd_ayar(args) -> int:
@@ -1071,11 +1075,18 @@ def cmd_oztest(args) -> int:
     return p.returncode
 
 
+def cmd_yasam(args) -> int:
+    """Hayat Modu (deney): hikâyeli iş akışı çerçevesi."""
+    from hy.motor import yasam
+    yasam.yasam_modu(Kayit())
+    return 0
+
+
 KOMUTLAR = {
     "gorev": cmd_gorev, "cevap": cmd_cevap, "ipucu": cmd_ipucu, "pes": cmd_pes,
     "durum": cmd_durum, "sifirla": cmd_sifirla, "yardim": cmd_yardim, "servis": cmd_servis,
     "ayar": cmd_ayar, "oyna": cmd_oyna, "liste": cmd_liste, "oztest": cmd_oztest,
-    "not": cmd_not, "sozluk": cmd_sozluk, "komut": cmd_komut,
+    "not": cmd_not, "sozluk": cmd_sozluk, "komut": cmd_komut, "yasam": cmd_yasam,
 }
 
 

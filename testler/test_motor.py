@@ -267,5 +267,49 @@ class KabukAkisiTestleri(unittest.TestCase):
         self.assertIn("görev kabuğunun içinde", p.stdout)
 
 
+class YasamTestleri(unittest.TestCase):
+    """Hayat Modu (prototip) — etkileşimsiz mantık: durum, iş üretimi, ödül, determinizm."""
+
+    def setUp(self):
+        from hy.motor import yasam
+        self.y = yasam
+
+    def test_durum_baslatma(self):
+        with tempfile.TemporaryDirectory() as td:
+            kayit = Kayit(Path(td) / "k.json")
+            dur = self.y._durumu(kayit)
+            for anahtar in ("gun", "para", "itibar", "tamamlanan_is"):
+                self.assertIn(anahtar, dur)
+            self.assertEqual(dur["gun"], 1)
+            self.assertEqual(dur["para"], 0)
+
+    def test_kutu_farkli_ailelerden(self):
+        kutu = self.y._kutu_uret(3)
+        self.assertEqual(len(kutu), 3)
+        self.assertEqual(len({j["sv"].kimlik for j in kutu}), 3)   # hepsi farklı aile
+        for j in kutu:
+            self.assertIn(j["zorluk"], ("kolay", "normal", "zor"))
+            self.assertGreater(j["odul_max"], 0)
+            self.assertTrue(j["kurulus"])
+            self.assertEqual(j["durum"], "yeni")
+
+    def test_odul_formulu(self):
+        sab = self.y.ISLER[0]
+        job = self.y._is_uret(sab, "zor", 1)
+        kat = self.y.zorluk.ZORLUKLAR["zor"]["xp"]
+        self.assertEqual(job["odul_max"], round(sab["taban"] * len(sab["sv"].gorevler) * kat))
+        kolay = self.y._is_uret(sab, "kolay", 1)
+        self.assertLess(kolay["odul_max"], job["odul_max"])       # zor daha çok öder
+
+    def test_tohum_deterministik(self):
+        sv = self.y.web_logu.SEVIYE
+        self.assertEqual(sv.senaryo(4242)["metin"]["musteri"],
+                         sv.senaryo(4242)["metin"]["musteri"])
+
+    def test_teaser_gercek_olay(self):
+        for sablon in self.y.ISLER:
+            self.assertTrue(self.y._teaser(sablon["sv"]))        # her ailede gerçek-hayat bağı var
+
+
 if __name__ == "__main__":
     unittest.main()
