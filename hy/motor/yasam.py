@@ -24,10 +24,11 @@ from hy.motor import zorluk
 from hy.motor.kabuk import gorev_kabugu, lab_kur
 from hy.motor.kayit import Kayit
 from hy.motor.rutbe import rutbe
-from hy.olay_masasi import (izin_denetimi, olay_adli, olay_api, olay_bulut, olay_dns, olay_eposta,
-                            olay_fidye, olay_firewall, olay_ictehdit, olay_kurcalama, olay_siem,
-                            olay_sizinti, olay_webshell, olay_yanal, olay_zaman, ssh_kaba_kuvvet,
-                            web_logu)
+from hy.olay_masasi import (izin_denetimi, olay_adli, olay_api, olay_avi, olay_bulut, olay_dns,
+                            olay_eposta, olay_fidye, olay_firewall, olay_ictehdit, olay_k8s,
+                            olay_kimlik, olay_kod, olay_kopru, olay_kurcalama, olay_kvkk, olay_pcap,
+                            olay_prompt, olay_siem, olay_sizinti, olay_webshell, olay_yanal,
+                            olay_zafiyet, olay_zaman, olay_zincir, ssh_kaba_kuvvet, web_logu)
 
 # ------------------------------------------------------------------ sahne / ASCII
 
@@ -167,6 +168,80 @@ ISLER = {
                    "boşluğu bul: ne silindi, ne zaman, kimin izinin üstü örtüldü?",
         "taban": 180,
     },
+    "zincir": {
+        "sv": olay_zincir.SEVIYE,
+        "konu": "Çalınan kripto fonun izini sür",
+        "cerceve": "{kurulus} ({sektor}) bir cüzdanı boşaltıldı. İşlem defterini gönderdiler — çalınan "
+                   "fonu adresten adrese takip et: nereye gitti, mikser'e ne zaman girdi, hangi borsadan "
+                   "çıkış denendi, ne kadar dondurulabilir?",
+        "taban": 200,
+    },
+    "kimlik": {
+        "sv": olay_kimlik.SEVIYE,
+        "konu": "Hesap ele geçirildi — kimlik saldırısını çöz",
+        "cerceve": "{kurulus} ({sektor}) bir hesabının ele geçtiğinden şüpheli. Giriş loglarını "
+                   "gönderdiler: kim nereden girdi — oturum mu çalındı, MFA mı atlatıldı, hangi "
+                   "makineye infostealer (bilgi çalan zararlı) bulaştı?",
+        "taban": 200,
+    },
+    "prompt": {
+        "sv": olay_prompt.SEVIYE,
+        "konu": "AI ajanı kötüye kullanıldı — logları incele",
+        "cerceve": "{kurulus} ({sektor}) bir AI ajanının kandırıldığından şüpheli. Ajan loglarını "
+                   "incele: kim talimatı ezdi (prompt injection), hangi aracı kötüye kullandı, hangi "
+                   "veri sızdı, hangi MCP aracı aşırı yetkili?",
+        "taban": 210,
+    },
+    "avi": {
+        "sv": olay_avi.SEVIYE,
+        "konu": "Alarm yok ama bir şey kokuyor — tehdit avı",
+        "cerceve": "{kurulus} ({sektor}) hiçbir alarm çalmadı ama içeride bir şeyden şüpheleniyor. "
+                   "Loglarda proaktif av yap: gizli bir C2 beacon'u mu var, sessiz bir kalıcılık mı?",
+        "taban": 190,
+    },
+    "pcap": {
+        "sv": olay_pcap.SEVIYE,
+        "konu": "Paket yakalamada şüpheli trafik",
+        "cerceve": "{kurulus} ({sektor}) bir tcpdump yakalaması gönderdi. Trafiği oku: C2 beacon mı, "
+                   "veri sızıntısı mı, port taraması mı — kim, nereye?",
+        "taban": 170,
+    },
+    "kod": {
+        "sv": olay_kod.SEVIYE,
+        "konu": "Kaynak kodda güvenlik denetimi",
+        "cerceve": "{kurulus} ({sektor}) birkaç kaynak dosyasını denetletmek istiyor. Kodu oku: "
+                   "hangi dosyada, hangi satırda, ne tür bir açık var — ve nasıl kapatılır?",
+        "taban": 180,
+    },
+    "zafiyet": {
+        "sv": olay_zafiyet.SEVIYE,
+        "konu": "Zafiyet taramasını önceliklendir",
+        "cerceve": "{kurulus} ({sektor}) bir tarama raporuyla boğuldu. Önce neyi kapatmalı? İnternete "
+                   "açık + exploit'i olan + kritik varlık = acil. Doğru sırayı çıkar.",
+        "taban": 170,
+    },
+    "kvkk": {
+        "sv": olay_kvkk.SEVIYE,
+        "konu": "Kişisel veri sızıntısı (KVKK)",
+        "cerceve": "{kurulus} ({sektor}) loglarında açıkta kişisel veri (TC kimlik, kart) olabilir. "
+                   "Bul ve sınıfla: hangi dosya, kaç kişi, en hassas tür, KVKK bildirimi gerekir mi?",
+        "taban": 190,
+    },
+    "k8s": {
+        "sv": olay_k8s.SEVIYE,
+        "konu": "Kubernetes yanlış yapılandırması",
+        "cerceve": "{kurulus} ({sektor}) bir K8s dağıtımını denetletmek istiyor. Manifest + imaj "
+                   "taramasını incele: privileged konteyner, açık sır, kritik CVE'li imaj var mı?",
+        "taban": 190,
+    },
+    "kopru": {
+        "sv": olay_kopru.SEVIYE,
+        "konu": "Çalınan fon köprüden başka zincire kaçtı",
+        "cerceve": "{kurulus} ({sektor}) çalınan fon bir blockchain köprüsünden geçip başka bir "
+                   "zincire atladı. İki zinciri ve köprü kayıtlarını birleştir: para nereye çıktı, "
+                   "ne kadar?",
+        "taban": 210,
+    },
 }
 
 # İtibar kademeleri: (eşik, ad, uygun aileler, uygun zorluklar, ödül çarpanı)
@@ -174,14 +249,17 @@ KADEMELER = [
     (0,   "Tanınmayan", ["web", "ssh", "firewall", "eposta"],
           ["kolay", "normal"], 1.00),
     (25,  "Duyulan",      ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
-                                "webshell", "sizinti"],
+                                "webshell", "sizinti", "pcap", "kod", "zafiyet"],
           ["kolay", "normal", "zor"], 1.15),
     (70,  "Aranan",      ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
-                                "webshell", "sizinti", "api", "bulut", "ictehdit", "siem", "kurcalama"],
+                                "webshell", "sizinti", "api", "bulut", "ictehdit", "siem", "kurcalama",
+                                "zincir", "kimlik", "prompt", "pcap", "kod", "zafiyet", "kvkk",
+                                "k8s", "avi", "kopru"],
           ["normal", "zor"], 1.30),
     (150, "Efsane", ["web", "ssh", "firewall", "eposta", "izin", "zaman", "dns",
                                 "webshell", "sizinti", "api", "bulut", "ictehdit", "siem", "kurcalama",
-                                "adli", "fidye", "yanal"],
+                                "adli", "fidye", "yanal", "zincir", "kimlik", "prompt", "pcap", "kod",
+                                "zafiyet", "kvkk", "k8s", "avi", "kopru"],
           ["normal", "zor"], 1.50),
 ]
 
@@ -206,7 +284,8 @@ LAB_KADEMELERI = [
 STORY_BONUS = 1.5  # hikâye (★) işleri daha çok öder
 
 # Ana hikâye omurgası — "Sıfırıncı Gün": ilerledikçe (tamamlanan iş + itibar) sırayla açılır.
-# (min_is, min_itibar, kim, metin, ozel_is_ekle)
+# (min_is, min_itibar, kim, metin, ozel_is_ekle[, zorla_aile]) — zorla_aile: özel iş bu aileden gelsin
+
 HIKAYE = [
     (1, 0,  "Deniz", "İlk işini kapattın. Küçük ama temiz — bu çevrede isim böyle yayılır.", False),
     (2, 0,  "Not",   "Masanda bir not: son vakalardaki saldırgan IP'leri garip biçimde aynı bloklardan "
@@ -223,8 +302,23 @@ HIKAYE = [
                      "Sıfırıncı Gün'ün vuracağı yerler. Ya seni avlıyorlar ya da deniyorlar.\"*", False),
     (12, 120, "Sen", "Parçalar yerine oturuyor: Sıfırıncı Gün dağınık değil — tek merkezden, senin çözdüğün "
                      "vakaların arasından geçen bir kampanya. Ve sıradaki hedef tanıdık çıkıyor.", True),
-    (14, 150, "Deniz", "Deniz başını sallıyor: *\"İzini sürdüğün şeyin içindesin artık. Küçük bir "
-                       "freelancer değilsin — bu dünyanın bir parçasısın.\"* (Devamı yakında…)", False),
+    (13, 135, "Eren", "Eren bir ekran görüntüsü atıyor: *\"Sıfırıncı Gün'ün parası kıpırdadı — bir cüzdan gece "
+                      "boşaldı, iz zincirde dolanıp bir mikser'e gidiyor. Sen bu defteri benden iyi okursun: "
+                      "nereye çıktığını bul.\"* (Bu işi K. değil, Eren bıraktı.)", True, "zincir"),
+    (14, 145, "Selin", "Zincir işini kapattın. Selin ekranı çeviriyor: *\"Takip ettiğin para bir borsada "
+                       "durdu — ama o borsadan çıkan başka bir iz, daha önce çözdüğün bir vakaya bağlanıyor. "
+                       "Sıfırıncı Gün'ü ilk kez görüyoruz.\"*", False),
+    (15, 155, "Deniz", "Deniz başını sallıyor: *\"İzini sürdüğün şeyin içindesin artık. Küçük bir "
+                       "freelancer değilsin — bu dünyanın bir parçasısın.\"* *(1. Perde kapanır.)*", False),
+    # --- 2. Perde: Modern Cephe ---
+    (17, 170, "Selin", "Selin yeni bir dosya atıyor: *\"Sıfırıncı Gün artık kapı kırmıyor — çalınan bir "
+                       "kimlikle içeri *giriyorlar*. Bir müşterinin hesabı ele geçmiş, iz loglarda. Çöz.\"*", True, "kimlik"),
+    (20, 200, "Eren",  "Eren telaşlı: *\"Bir şirketin AI destek ajanını kandırmışlar — ajan kendi araçlarıyla "
+                       "veri sızdırıyor. Logları sana yolladım; bu yeni bir tür saldırı.\"*", True, "prompt"),
+    (24, 240, "K.",    "K.'den beklenmedik bir itiraf: *\"Artık tek tek uğraşmıyorlar. Bir pakete zehir koyup "
+                       "yüzlerce şirkete aynı anda girdiler. Ben de o paketi kullandım... Dikkatli ol.\"*", False),
+    (28, 300, "Deniz", "Deniz sesini iyice kısıyor: *\"Bir sonraki hedef bir veri merkezi değil — bir fabrika. "
+                       "Fiziksel dünyaya geçiyorlar. Bu iş artık senden de büyük.\"* *(Final yaklaşıyor…)*", False),
 ]
 
 
@@ -589,14 +683,17 @@ def _hikaye_ilerlet(kayit: Kayit) -> None:
     adim = dur.get("hikaye_adim", 0)
     if adim >= len(HIKAYE):
         return
-    min_is, min_it, kim, metin, ozel = HIKAYE[adim]
+    satir = HIKAYE[adim]
+    min_is, min_it, kim, metin, ozel = satir[:5]
+    zorla_aile = satir[5] if len(satir) > 5 else None
     if dur["tamamlanan_is"] < min_is or dur["itibar"] < min_it:
         return
     dur["hikaye_adim"] = adim + 1
     if ozel:
         _, kad = _kademe(dur["itibar"])
         zorlar = [x for x in ("normal", "zor") if x in kad[3]] or list(kad[3])
-        job = _is_uret(random.choice(kad[2]), random.choice(zorlar), dur["sonraki_no"],
+        aile = zorla_aile if (zorla_aile and zorla_aile in ISLER) else random.choice(kad[2])
+        job = _is_uret(aile, random.choice(zorlar), dur["sonraki_no"],
                        hikaye=True, patron=kim)
         dur["sonraki_no"] += 1
         dur["kutu"].append(job)

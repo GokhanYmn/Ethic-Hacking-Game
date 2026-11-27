@@ -155,6 +155,20 @@ def gorev_kabugu(sv, lab: Path) -> int:
         "HY_PY": sys.executable,
         "HY_ANA": str(ANA),
     })
+    try:  # tek seferlik "nasıl oynanır" kartı (ilk saha görevinde); asla kabuğu bozmaz
+        from hy.motor.kayit import Kayit
+        _k = Kayit()
+        if not _k.veri["oyuncu"].get("rehber_goruldu"):
+            print(ui.kutu("NASIL OYNANIR", (
+                "Buradan sonrası GERÇEK bir Linux terminali. Her vakada şu ritim:\n"
+                "  1) Dosyaları/mesajı oku:   ls  ·  cat <dosya>\n"
+                "  2) Önemli bulguyu not al:  not <metin>   (notlar.md'ye yazar)\n"
+                "  3) Soruları gör:  gorev    ·  Cevapla:  cevap <no> <cevabın>\n"
+                "  4) Takıldın mı:  ipucu <no>   ·  Menüye dön:  cik"), "camgobegi"))
+            _k.veri["oyuncu"]["rehber_goruldu"] = True
+            _k.kaydet()
+    except Exception:
+        pass
     print(ui.bilgi(f"Görev kabuğu açılıyor. Menüye dönmek için {ui.r('cik', 'camgobegi')} yaz."))
     with servisler(sv):
         return subprocess.call([bash, "--rcfile", str(rc), "-i"], cwd=str(lab), env=ortam)

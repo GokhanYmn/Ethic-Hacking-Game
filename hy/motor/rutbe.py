@@ -58,6 +58,7 @@ ROZETLER = {
     "cilt_22": ("Zincir Okuyucu", "Cilt 22'yi bitirdin."),
     "cilt_23": ("e-Dönüşüm Denetçisi", "Cilt 23'ü bitirdin."),
     "cilt_24": ("Kalkan Güvenlik Danışmanı", "Capstone'u bitirdin: stajın bitti, masan hazır."),
+    "cilt_25": ("Fabrika Nöbetçisi", "Cilt 25'i bitirdin: endüstriyel sistemleri okuyabiliyorsun."),
 }
 
 

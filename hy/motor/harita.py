@@ -29,6 +29,7 @@ CILTLER = {
     22: "Kripto, Blockchain ve DeFi Güvenliği",
     23: "Türkiye e-Dönüşüm Derinlemesine",
     24: "Capstone: Uçtan Uca Senaryolar",
+    25: "Endüstriyel Kontrol Sistemleri (OT/ICS)",
 }
 
 CEKIRDEK_SON = 10   # 1-10 sırayla; 11+ çekirdek bitince serbest sırayla

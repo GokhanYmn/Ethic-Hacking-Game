@@ -194,7 +194,9 @@ Bir kripto girişimi akıllı sözleşmesini denetletmek istiyor. Mert: "Blokzin
 hata yayına girdiyse geri alınamaz. Kod kanundur, hata da kanunun parçası olur."
 
 Bu hafta anahtar yönetimini, akıllı sözleşme açıklarını ve cüzdan güvenliğini
-öğreneceksin; tamamen okuma ve analiz üzerinden.
+öğreneceksin; tamamen okuma ve analiz üzerinden. Ve bir kasa boşaldığında iş bitmez:
+çalınan fonu adresten adrese, mikserden borsaya zincirde takip etmeyi — paranın
+bıraktığı izi okumayı — da öğreneceksin.
 """,
     23: """
 Kuzgun Lojistik e-fatura ve e-irsaliyeye geçiyor; bordro da SGK ile entegre. Serdar Bey:
@@ -207,6 +209,14 @@ Selin seni odasına çağırıyor. Masada üç dosya var. "Stajın bitiyor. Bu �
 her şeyi birleştirmeni isteyecek. Başarırsan, Kalkan Güvenlik'te bir masan olacak."
 
 Mert kapıdan sesleniyor: "Raporu unutma!"
+""",
+    25: """
+Selin bir dosya daha uzatıyor: "Bu farklı. Burada hedef bir sunucu değil — bir fabrika,
+bir su tesisi, bir trafo. Endüstriyel sistemler (OT). Bir hata ekranda değil, fiziksel
+dünyada patlar. Burada 'çalışır durumda kalmak' her şeyden önce gelir."
+
+Bu bölgede SCADA, PLC ve Modbus trafiğini izlemeyi; normalin içinden tehlikeli bir komutu
+ayıklamayı öğreneceksin.
 """,
 })
 
